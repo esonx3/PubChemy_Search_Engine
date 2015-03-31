@@ -2,6 +2,16 @@ import urllib
 import cPickle as pickle
 print "started"
 
+#This function is used to update the local CAS to CID db
+#It loades an page as an string, finds the needed values and updates the file CAS_Cid.txt
+
+
+#WARNING!
+#DON'T USE OR RUN THIS FUNCTION UNLESS YOU RLY KNOW WHAT U ARE DOING!
+
+#TODO comment this sh1et
+
+
 def DownloadDB(start,end):
     print "Updating values from ", start, "to ", end
     current = start
@@ -73,6 +83,7 @@ def DownloadDB(start,end):
     #for obj in ListOfFoundObjects:
     #    print "CAS: ", obj[0], " CID: ", obj[1]
     pickle.dump(dicti,open( "CAS_Cid.txt", "wb" ))
+#TODO comment here
 def openandprint():
     dicti = pickle.load(open( "CAS_Cid.txt", "rb" ))
     con = 0
@@ -80,6 +91,7 @@ def openandprint():
         con += 1
         print keys,":",values
     print "total ", con,"CAS cid's found!"
+#TODO comment here
 def Cleaner():
     dicti = pickle.load(open( "CAS_Cid.txt", "rb" ))
     for keys,values in dicti.items():
@@ -89,7 +101,7 @@ def Cleaner():
         except:
             pass
     pickle.dump(dicti,open( "CAS_Cid.txt", "wb" ))
-DownloadDB(3000,6000)
-Cleaner()
-print "Done!"
-openandprint()
+#DownloadDB(3000,6000)
+#Cleaner()
+#print "Done!"
+#openandprint()
