@@ -4,9 +4,11 @@ print "started"
 
 def DownloadDB(start,end):
     current = start
-    ListOfFoundObjects = list()
-    dicti = {}
+    #ListOfFoundObjects = list()
+    #dicti = {}
+    dicti = pickle.load(open( "CAS_Cid.txt", "rb" ))
     while current < end:
+        print "Item: ", current
         Object = list()
         link = "https://pubchem.ncbi.nlm.nih.gov/rest/pug_view/data/compound/" + str(current) + "/JSONP/?callback=jQuery210016954221896634825_1427811263840"
         sock = urllib.urlopen(link)
@@ -42,9 +44,9 @@ def DownloadDB(start,end):
         #ListOfFoundObjects.append((line,current))
         dicti[str(current)] = line
         current += 1
-    for keys,values in dicti.items():
-        print keys,":",values
-
+    #for keys,values in dicti.items():
+    #    print keys,":",values
+    print "Done!"
     #for obj in ListOfFoundObjects:
     #    print "CAS: ", obj[0], " CID: ", obj[1]
     pickle.dump(dicti,open( "CAS_Cid.txt", "wb" ))
