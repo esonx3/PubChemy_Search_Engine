@@ -75,8 +75,11 @@ def DownloadDB(start,end):
     pickle.dump(dicti,open( "CAS_Cid.txt", "wb" ))
 def openandprint():
     dicti = pickle.load(open( "CAS_Cid.txt", "rb" ))
+    con = 0
     for keys,values in dicti.items():
+        con += 1
         print keys,":",values
+    print "total ", con,"CAS cid's found!"
 def Cleaner():
     dicti = pickle.load(open( "CAS_Cid.txt", "rb" ))
     for keys,values in dicti.items():
@@ -86,34 +89,7 @@ def Cleaner():
         except:
             pass
     pickle.dump(dicti,open( "CAS_Cid.txt", "wb" ))
-DownloadDB(1,250)
+DownloadDB(3000,6000)
 Cleaner()
-#print "Next range.."
-#DownloadDB(250,500)
-#Cleaner()
-#print "Next range.."
-#DownloadDB(500,750)
-#Cleaner()
-#print "Next range.."
-#DownloadDB(750,1000)
-#Cleaner()
-#print "Next range.."
-#DownloadDB(1000,1250)
-#Cleaner()
-#print "Next range.."
-#DownloadDB(1250,1500)
-#Cleaner()
-#print "Next range.."
-#DownloadDB(1500,1750)
-#Cleaner()
-#print "Next range.."
-#DownloadDB(1750,2000)
-#Cleaner()
-#print "Next range.."
-#DownloadDB(2250,2500)
-#Cleaner()
-#print "Next range.."
-#DownloadDB(2500,3000)
-#Cleaner()
-#print "Done!"
+print "Done!"
 openandprint()
