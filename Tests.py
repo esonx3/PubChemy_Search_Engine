@@ -101,7 +101,9 @@ def Cleaner():
         except:
             pass
     pickle.dump(dicti,open( "CAS_Cid.txt", "wb" ))
-#DownloadDB(3000,6000)
-#Cleaner()
-#print "Done!"
-#openandprint()
+DownloadDB(6000,9000)
+Cleaner()
+print "Done!"
+DownloadDB(9000,12000)
+Cleaner()
+openandprint()
