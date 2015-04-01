@@ -2,9 +2,9 @@
 from pubchempy import *
 import CAS_DB
 
+CAS_BDTABASE = CAS_DB.CAS_DB()#creat an global database object
+
 #pubchempy doc: http://pubchempy.readthedocs.org/en/latest/
-
-
 
 #Retrieve Compound record for specified CID
 #in: CID
@@ -18,8 +18,8 @@ def GetCompound(id):
 #out: Cid
 #TODO remove later on, test function only
 def Test_CAS_TO_CID(CAS):
-    CAS_DB.Loade_CAS_DB() #Loade the db
-    cid_list = CAS_DB.Find_CID_BY_CAS(CAS,True)
+    global CAS_BDTABASE
+    cid_list = CAS_BDTABASE.Find_CID_BY_CAS(CAS,True)
     return int(cid_list[0])
 
 
@@ -47,6 +47,8 @@ def Test():
 PrintValue(Test())
 
 #test the cas to cid function
+
+
 print "enter cas key '7732-18-5' (water)"
 cas_key = "7732-18-5"
 print "got smile: "
