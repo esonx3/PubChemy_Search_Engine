@@ -1,9 +1,11 @@
+#!/usr/bin/python
+# -*- coding: latin-1 -*-
 
 from Tkinter import *
 
 root = Tk()
 
-#testar lite olika funktioner fÃ¶r anvÃ¤ndar fÃ¶nstret
+#testar lite olika funktioner för användar fönstret
 
 
 # create a frame
