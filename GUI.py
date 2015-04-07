@@ -1,47 +1,66 @@
 #!/usr/bin/python
 # -*- coding: latin-1 -*-
 
+
 from Tkinter import *
 
 root = Tk()
 
-#testar lite olika funktioner för användar fönstret
-
-
-# create a frame
+# create Frame
 frame = Frame()
 frame.pack()
 
+#temporery command to test functions
+def hello():
+    print "hello!"
+
+
+def about():
+    print "Ange Namn, Cas eller Smiley som du vill leta efter"
+
+def serch(event):
+    print "ressultat in progress..."
+
+# create a Canvas
+C = Canvas(root, bg="white", bd=4, width=355, height=300, relief=GROOVE)
+C.pack()
 v = StringVar()
-Entry(frame,textvariable=v).grid(row=3, column=1)
-Entry(frame,textvariable=v).grid(row=3, column=0)
+
+Entry(frame,textvariable=v).grid(row=1, column=1)
 
 
+#create Button
+B=Button(frame,text="GO!",fg="blue",bg="red",width=5)
+B.bind('<Button-1>', serch)
+B.grid(row=1, column=2)
 
-#create button
-B1=Button(frame,text="basic",fg="red",bg="blue",width=12)
-B1.pack(side=LEFT, padx=10)
-B2=Button(frame,text="basic",fg="blue",bg="red",width=12)
-B2.pack(side=LEFT, padx=10)
+#create OptionMenu
+var2 = StringVar(root)
+var2.set("Search Type") # initial value
+option = OptionMenu(frame, var2, "Name", "Smiley", "CAS")
+option.grid(row=1, column=0)
 
-B1.grid(row=1, column=0)
-B2.grid(row=2, column=1)
+# create a toplevel menu
+menubar = Menu(root)
 
-B3=Button(frame,text="basic",fg="Green",bg="Black",width=12)
-B3.pack(side=LEFT, padx=10)
-B4=Button(frame,text="basic",fg="Green",bg="Black",width=12)
-B4.pack(side=RIGHT, padx=10)
+# create pulldown menus, and add them to the menu bar
+filemenu = Menu(menubar, tearoff=0)
+filemenu.add_command(label="Open", command=hello) #change command to "read file"
+filemenu.add_command(label="Save", command=hello) #change command to "save file"
+filemenu.add_separator()
+filemenu.add_command(label="Exit", command=root.quit)
+menubar.add_cascade(label="File", menu=filemenu)
 
-B3.grid(row=1, column=1)
-B4.grid(row=2, column=0)
+historymenu = Menu(menubar, tearoff=0)
+historymenu.add_command(label="Latest Serch", command=hello)
+historymenu.add_command(label="Random function", command=hello)
+menubar.add_cascade(label="History", menu=historymenu)
 
-Label(frame, text="This is a label").grid(row=0,column=0, sticky=W)
-Label(frame, text="Another lable").grid(row=0, column=1, sticky=W)
-
-#herp di derp funktion
-C=Canvas(frame,width=300, height=100)
-C.grid(row=4, column=0,)
-C.create_line(0, 100, 100, 100)
+helpmenu = Menu(menubar, tearoff=0)
+helpmenu.add_command(label="About", command=about) #change command to print instructions in window
+menubar.add_cascade(label="Help", menu=helpmenu)
 
 
+# display the menu
+root.config(menu=menubar)
 mainloop()
