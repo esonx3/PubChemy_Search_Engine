@@ -5,6 +5,7 @@
 # By: Grupp 11
 
 from Tkinter import *
+from tkFileDialog import askopenfilename
 
 root = Tk()
 
@@ -13,6 +14,10 @@ frame = Frame()
 frame.pack()
 
 #temporery command to test functions
+
+def search_log():
+    about()
+
 def onKey(event):
     inStr=str(E.get())
     B.config(state='normal')
@@ -30,13 +35,15 @@ def about():
     button = Button(top, text="Ok", command=top.destroy)
     button.pack()
 
-def open_file(self):
-    fname = askopenfilename(filetypes=(("Template files", "*.tplate"),
-                                           ("HTML files", "*.html;*.htm"),
-                                           ("All files", "*.*") ))
+def open_file():
+    name = askopenfilename()
+
+def save_file():
+    name = askopenfilename()
 
 def search(event):
     print E.get()
+    C.insert('1.0', E.get() + '\n')
     if B.cget("state"):
         print B.cget("state")
     else:
@@ -52,8 +59,14 @@ def GO_name(name):
     #return comp.isomeric_smiles
 
 # create a Canvas
-C = Canvas(root, bg="white", bd=4, width=355, height=300, relief=GROOVE)
+scrollbar = Scrollbar(root)
+scrollbar.pack(side=RIGHT, fill=Y)
+
+C = Text(root, bg="white", bd=2, wrap=WORD, yscrollcommand=scrollbar.set)
 C.pack()
+C.insert(INSERT, "\n\nhello world")
+
+
 v = StringVar()
 
 # Button
@@ -81,13 +94,13 @@ menubar = Menu(root)
 # create pulldown menus, and add them to the menu bar
 filemenu = Menu(menubar, tearoff=0)
 filemenu.add_command(label="Open", command=open_file) #change command to "read file"
-filemenu.add_command(label="Save", command=hello) #change command to "save file"
+filemenu.add_command(label="Save", command=save_file) #change command to "save file"
 filemenu.add_separator()
 filemenu.add_command(label="Exit", command=root.quit)
 menubar.add_cascade(label="File", menu=filemenu)
 
 historymenu = Menu(menubar, tearoff=0)
-historymenu.add_command(label="Latest Search", command=hello)
+historymenu.add_command(label="Search log", command=search_log)
 historymenu.add_command(label="Random function", command=hello)
 menubar.add_cascade(label="History", menu=historymenu)
 
