@@ -1,7 +1,9 @@
 #!/usr/bin/python
 # -*- coding: latin-1 -*-
 
-#test
+# PubChemPy Graphical Client using Tkinter
+# By: Grupp 11
+
 from Tkinter import *
 
 root = Tk()
@@ -11,6 +13,10 @@ frame = Frame()
 frame.pack()
 
 #temporery command to test functions
+def onKey(event):
+    inStr=str(E.get())
+    B.config(state='normal')
+
 def hello():
     print "hello!"
 
@@ -18,21 +24,32 @@ def hello():
 def about():
     print "Ange Namn, Cas eller Smiley som du vill leta efter"
 
-def serch(event):
+def search(event):
     print "ressultat in progress..."
+
+def GO_name(name):
+    sometext=str(E.get())
+    B.config(text='Loading...')
+    #cid=get_compounds(name,'name')
+    #comp = Compound.from_cid(cid)
+    #result.config(text=str(comp.isomeric_smiles))
+    C.config(bg='grey')
+    #return comp.isomeric_smiles
 
 # create a Canvas
 C = Canvas(root, bg="white", bd=4, width=355, height=300, relief=GROOVE)
 C.pack()
 v = StringVar()
 
-Entry(frame,textvariable=v).grid(row=1, column=1)
-
+E = Entry(frame,textvariable=v)
+E.grid(row=1, column=1)
+E.bind('<KeyRelease>',onKey)
 
 #create Button
-B=Button(frame,text="GO!",fg="blue",bg="red",width=5)
-B.bind('<Button-1>', serch)
+B=Button(frame,state='disabled',command=lambda: GO_name(E),text="GO!",fg="blue",bg="red",width=5)
+B.bind('<Button-1>', search)
 B.grid(row=1, column=2)
+
 
 #create OptionMenu
 var2 = StringVar(root)
