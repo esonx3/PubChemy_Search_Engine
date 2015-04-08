@@ -25,6 +25,7 @@ def about():
     print "Ange Namn, Cas eller Smiley som du vill leta efter"
 
 def search(event):
+    print B.cget("state")
     print "ressultat in progress..."
 
 def GO_name(name):
