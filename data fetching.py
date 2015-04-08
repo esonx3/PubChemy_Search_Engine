@@ -13,11 +13,12 @@ def onKey(event):
     button.config(state='normal')
 
 def GO_name(name):
+    sometext=str(entry.get())
     button.config(text='Loading...')
     #cid=get_compounds(name,'name')
     #comp = Compound.from_cid(cid)
     #result.config(text=str(comp.isomeric_smiles))
-    result.config(text='in the GO function')
+    result.config(text=sometext)
     #return comp.isomeric_smiles
 
 def GO_cas(CAS):
@@ -47,10 +48,10 @@ root = Tk()
 label = Label(root,text='give CAS number/name/SMILES')
 entry = Entry(root)
 result= Label(root,text="")
-button=Button(text='Send',state='disabled',command=GO_name(entry))
+button=Button(text='Send',state='disabled',command=lambda:GO_name(entry))
 entry.bind('<KeyRelease>',onKey)
 
-
+#button.bind('<Button-1>',GO_name(entry))
 
 
 
@@ -67,4 +68,3 @@ result.pack()
 root.geometry("%dx%d%+d%+d" % (300,150,100,100))
 
 root.mainloop()
-
