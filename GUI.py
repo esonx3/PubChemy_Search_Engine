@@ -46,6 +46,7 @@ def save_file():
 def search(event):
     print E.get()
     C.insert('1.0', separator2.get() + '\n')
+    C.image_create('1.0', image=img2)
     if B.cget("state"):
         print B.cget("state")
     else:
@@ -104,7 +105,7 @@ scrollbar = Scrollbar(frame)
 C = Text(frame, bg="white", wrap=WORD, yscrollcommand=scrollbar.set)
 C.insert(INSERT, "\n\nhello world")
 scrollbar.config(command=C.yview)
-scrollbar.pack(side=RIGHT, fill=Y)
+scrollbar.pack(side=RIGHT,  fill=Y)
 C.config(yscrollcommand=scrollbar.set)
 
 txt = Text(frame, height=15, width=55)
