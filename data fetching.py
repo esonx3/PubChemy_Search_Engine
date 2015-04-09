@@ -14,7 +14,7 @@ def onKey(event):
 def name_to_CID(name):
     result0.config(text="")    
     #button.config(text='Loading...')
-    sometext=str(entry.get())
+    sometext=str(name.get())
     try:
         cid=get_compounds(sometext,'name')
         CID_to_name(cid)
@@ -24,7 +24,7 @@ def name_to_CID(name):
 
 def smiles_to_CID(SMILES):
     result0.config(text="")
-    sometext=str(entry.get())
+    sometext=str(SMILES.get())
     try:
         cid=get_compounds(sometext,'smiles')
         print "CID: ", cid
@@ -42,7 +42,7 @@ def smiles_to_CID(SMILES):
 
 def cas_to_CID(CAS):
     global CAS_BDTABASE
-    sometext=str(entry.get())
+    sometext=str(CAS.get())
     print "CAS: ", sometext
     cid = CAS_BDTABASE.Find_CID_BY_CAS(sometext,True)
     cid=get_compounds(cid,'cid')
@@ -72,7 +72,7 @@ def CID_to_name(cid):
         #synonyms_all.append(str(synonym))
     #result_synonyms.config(text='synonym: '+synonyms_all[0])
 
-    #print All elements
+    #print All elements in a nice list
     if len(names_all) > 1:
         nameprint = ""
         for nam in names_all:
