@@ -70,6 +70,13 @@ separator2 = Entry(relief=SUNKEN)
 separator2.pack(fill=X, padx=5, pady=5)
 separator2.focus()
 
+#create OptionMenu
+var2 = StringVar(root)
+var2.set("Name") # initial value
+
+separator3 = OptionMenu(left, var2, "Name", "Smiley", "CAS")
+separator3.pack(fill=X, padx=5, pady=5)
+
 scrollbar = Scrollbar(frame)
 
 C = Text(frame, bg="white", wrap=WORD, yscrollcommand=scrollbar.set)
@@ -98,10 +105,7 @@ separator2.bind('<KeyRelease>',onKey)
 E.focus()
 
 
-#create OptionMenu
-var2 = StringVar(root)
-var2.set("Name") # initial value
-option = OptionMenu(frame, var2, "Name", "Smiley", "CAS")
+
 
 # create a toplevel menu
 menubar = Menu(root)
