@@ -63,7 +63,7 @@ def GO_name(name):
 # create a Canvas
 
 
-img2 = PhotoImage(file="~/firefox_icon.gif")
+img2 = PhotoImage(file="firefox_icon.gif")
 
 separator = Frame(height=2, bd=1, relief=SUNKEN)
 separator.pack(fill=X, padx=5, pady=5)
