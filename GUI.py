@@ -12,6 +12,8 @@ root = Tk()
 # create Frame
 frame = Frame()
 frame.pack()
+left = Frame()
+left.pack()
 
 #temporery command to test functions
 
@@ -43,7 +45,7 @@ def save_file():
 
 def search(event):
     print E.get()
-    C.insert('1.0', E.get() + '\n')
+    C.insert('1.0', separator2.get() + '\n')
     if B.cget("state"):
         print B.cget("state")
     else:
@@ -59,26 +61,40 @@ def GO_name(name):
     #return comp.isomeric_smiles
 
 # create a Canvas
-scrollbar = Scrollbar(root)
-scrollbar.pack(side=RIGHT, fill=Y)
 
-C = Text(root, bg="white", bd=2, wrap=WORD, yscrollcommand=scrollbar.set)
-C.pack()
+
+separator = Frame(height=2, bd=1, relief=SUNKEN)
+separator.pack(fill=X, padx=5, pady=5)
+
+separator2 = Entry(relief=SUNKEN)
+separator2.pack(fill=X, padx=5, pady=5)
+separator2.focus()
+
+scrollbar = Scrollbar(frame)
+
+C = Text(frame, bg="white", wrap=WORD, yscrollcommand=scrollbar.set)
 C.insert(INSERT, "\n\nhello world")
+scrollbar.config(command=C.yview)
+scrollbar.pack(side=RIGHT, fill=Y)
+C.config(yscrollcommand=scrollbar.set)
 
+txt = Text(frame, height=15, width=55)
+scr = Scrollbar(frame)
+
+scrollbar.pack(side="right", fill="y", expand=False)
+C.pack(side="left", fill="both", expand=True)
 
 v = StringVar()
 
 # Button
-B=Button(frame,state='disabled',command=lambda: GO_name(E),text="GO!",fg="blue",bg="red",width=5)
+B=Button(left,state='disabled',command=lambda: GO_name(E),text="GO!",fg="blue",bg="red",width=5)
 B.bind('<Button-1>', search)
-B.grid(row=1, column=2)
 
 # Entry widget
 E = Entry(frame,textvariable=v)
-E.grid(row=1, column=1)
-E.bind('<Return>',search)
-E.bind('<KeyRelease>',onKey)
+
+separator2.bind('<Return>',search)
+separator2.bind('<KeyRelease>',onKey)
 E.focus()
 
 
@@ -86,7 +102,6 @@ E.focus()
 var2 = StringVar(root)
 var2.set("Name") # initial value
 option = OptionMenu(frame, var2, "Name", "Smiley", "CAS")
-option.grid(row=1, column=0)
 
 # create a toplevel menu
 menubar = Menu(root)
@@ -110,5 +125,7 @@ menubar.add_cascade(label="Help", menu=helpmenu)
 
 
 # display the menu
+root.geometry("400x600")
+
 root.config(menu=menubar)
 mainloop()
