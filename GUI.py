@@ -15,6 +15,8 @@ frame.pack(fill=X)
 left = Frame()
 left.pack()
 
+
+
 #temporery command to test functions
 
 def search_log():
@@ -60,6 +62,26 @@ def GO_name(name):
     #result.config(text=str(comp.isomeric_smiles))
     C.config(bg='grey')
     #return comp.isomeric_smiles
+
+
+class CreateButton:
+
+    def Small(self, varb):
+        self.img2 = PhotoImage(file="firefox_icon.gif")
+
+        f1 = Frame(left, height=32, width=32)
+        f1.pack_propagate(0) # don't shrink
+        f1.pack(side=LEFT)
+        b1 = Button(f1, image=self.img2)
+        b1.pack(fill=BOTH, expand=1)
+        b1.bind('<Button-1>', search)
+
+    def __init__(self, varb):
+        self.Small(self)
+
+bu1 = CreateButton("2")
+bu2 = CreateButton("3")
+bu3 = CreateButton("4")
 
 # create a Canvas
 
