@@ -11,7 +11,7 @@ root = Tk()
 
 # create Frame
 frame = Frame()
-frame.pack()
+frame.pack(fill=X)
 left = Frame()
 left.pack()
 
@@ -63,12 +63,34 @@ def GO_name(name):
 # create a Canvas
 
 
+img2 = PhotoImage(file="~/firefox_icon.gif")
+
 separator = Frame(height=2, bd=1, relief=SUNKEN)
 separator.pack(fill=X, padx=5, pady=5)
 
 separator2 = Entry(relief=SUNKEN)
 separator2.pack(fill=X, padx=5, pady=5)
 separator2.focus()
+
+
+f1 = Frame(left, height=32, width=32)
+f2 = Frame(left, height=32, width=32)
+f3 = Frame(left, height=32, width=32)
+f1.pack_propagate(0) # don't shrink
+f1.pack(side=LEFT)
+f2.pack_propagate(0) # don't shrink
+f2.pack(side=LEFT)
+f3.pack_propagate(0) # don't shrink
+f3.pack(side=LEFT)
+
+b1 = Button(f1, image=img2)
+b2 = Button(f2, image=img2)
+b3 = Button(f3, text="...")
+
+b1.pack(fill=BOTH, expand=1)
+b2.pack(fill=BOTH, expand=1)
+b3.pack(fill=BOTH, expand=1)
+
 
 #create OptionMenu
 var2 = StringVar(root)
@@ -89,7 +111,7 @@ txt = Text(frame, height=15, width=55)
 scr = Scrollbar(frame)
 
 scrollbar.pack(side="right", fill="y", expand=False)
-C.pack(side="left", fill="both", expand=True)
+C.pack(side="left", fill=X, expand=True)
 
 v = StringVar()
 
