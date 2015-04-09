@@ -7,6 +7,7 @@
 from Tkinter import *
 from tkFileDialog import askopenfilename
 
+
 root = Tk()
 
 # create Frame
@@ -46,6 +47,13 @@ def save_file():
     name = askopenfilename()
 
 def search(event):
+    if event == "1":
+        print "knapp 1"
+    if event == "2":
+        print "knapp 2"
+    if event == "3":
+        print "knapp " + event
+    print event
     print E.get()
     C.insert('1.0', separator2.get() + '\n')
     C.image_create('1.0', image=img2)
@@ -63,7 +71,6 @@ def GO_name(name):
     C.config(bg='grey')
     #return comp.isomeric_smiles
 
-
 class CreateButton:
 
     def Small(self, varb):
@@ -74,15 +81,10 @@ class CreateButton:
         f1.pack(side=LEFT)
         b1 = Button(f1, image=self.img2)
         b1.pack(fill=BOTH, expand=1)
-        b1.bind('<Button-1>', search)
+        b1.bind('<Button-1>', lambda(e): search(varb))
 
     def __init__(self, varb):
-        self.Small(self)
-
-bu1 = CreateButton("2")
-bu2 = CreateButton("3")
-bu3 = CreateButton("4")
-
+        self.Small(varb)
 # create a Canvas
 
 
@@ -95,24 +97,6 @@ separator2 = Entry(relief=SUNKEN)
 separator2.pack(fill=X, padx=5, pady=5)
 separator2.focus()
 
-
-f1 = Frame(left, height=32, width=32)
-f2 = Frame(left, height=32, width=32)
-f3 = Frame(left, height=32, width=32)
-f1.pack_propagate(0) # don't shrink
-f1.pack(side=LEFT)
-f2.pack_propagate(0) # don't shrink
-f2.pack(side=LEFT)
-f3.pack_propagate(0) # don't shrink
-f3.pack(side=LEFT)
-
-b1 = Button(f1, image=img2)
-b2 = Button(f2, image=img2)
-b3 = Button(f3, text="...")
-
-b1.pack(fill=BOTH, expand=1)
-b2.pack(fill=BOTH, expand=1)
-b3.pack(fill=BOTH, expand=1)
 
 
 #create OptionMenu
@@ -136,20 +120,30 @@ scr = Scrollbar(frame)
 scrollbar.pack(side="right", fill="y", expand=False)
 C.pack(side="left", fill=X, expand=True)
 
-v = StringVar()
 
 # Button
 B=Button(left,state='disabled',command=lambda: GO_name(E),text="GO!",fg="blue",bg="red",width=5)
 B.bind('<Button-1>', search)
 
 # Entry widget
-E = Entry(frame,textvariable=v)
 
 separator2.bind('<Return>',search)
 separator2.bind('<KeyRelease>',onKey)
+
+
+
+v = StringVar()
+
+E = Entry(frame,textvariable=v)
+
+bu1 = CreateButton("1")
+bu2 = CreateButton("2")
+bu3 = CreateButton("3")
+
+bu1.vart = "search()"
+bu2.vart = "about()"
+bu3.vart = search("lalala")
 E.focus()
-
-
 
 
 # create a toplevel menu
