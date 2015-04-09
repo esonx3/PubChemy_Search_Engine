@@ -16,7 +16,6 @@ def name_to_CID(name):
     #button.config(text='Loading...')
     sometext=str(entry.get())
     try:
-        
         cid=get_compounds(sometext,'name')
         CID_to_name(cid)
         CID_to_smiles(cid)
@@ -28,6 +27,7 @@ def smiles_to_CID(SMILES):
     sometext=str(entry.get())
     try:
         cid=get_compounds(sometext,'smiles')
+        print "CID: ", cid
         CID_to_name(cid)
         CID_to_smiles(cid)
     except:
@@ -42,7 +42,12 @@ def smiles_to_CID(SMILES):
 
 def cas_to_CID(CAS):
     global CAS_BDTABASE
-    cid = CAS_BDTABASE.Find_CID_BY_CAS(CAS,True)
+    sometext=str(entry.get())
+    print "CAS: ", sometext
+    cid = CAS_BDTABASE.Find_CID_BY_CAS(sometext,True)
+    cid=get_compounds(cid,'cid')
+    #cid = ("Compound("+cid[0]+")",)
+    print "CID:" , cid[0]
 #    return int(cid[0])
     CID_to_name(cid)
     CID_to_smiles(cid)
@@ -66,20 +71,28 @@ def CID_to_name(cid):
         names_all.append(str(name))
         #synonyms_all.append(str(synonym))
     #result_synonyms.config(text='synonym: '+synonyms_all[0])
-    result_name.config(text='name: '+names_all[0])
+
+    #print All elements
+    if len(names_all) > 1:
+        nameprint = ""
+        for nam in names_all:
+            nameprint += nam + " ,"
+    else:
+        nameprint = names_all[0]
+    result_name.config(text='name: '+nameprint)
    
 
 root = Tk()
 label = Label(root,text='give CAS number/name/SMILES')
 entry = Entry(root)
-
+print "entered: " , entry
 result0 = Label(root,text="")
 #result_synonyms=Label(root,text="synonym:")
 result_name= Label(root,text="name: ")
 result_cas= Label(root,text="cas: ")
 result_smiles= Label(root,text="smiles: ")
 
-button=Button(text='Send',state='disabled',command=lambda:name_to_CID(entry))
+button=Button(text='Send',state='disabled',command=lambda:cas_to_CID(entry))
 entry.bind('<KeyRelease>',onKey)
 
 
