@@ -7,19 +7,27 @@
 from Tkinter import *
 from tkFileDialog import askopenfilename
 
-
 root = Tk()
 
 # create Frame
+
+
+topbar = Frame(height=30)
+topbar.pack(fill=X)
+
+topbar_line = Frame(height=2, bd=1, relief=SUNKEN)
+topbar_line.pack(fill=X, padx=5, pady=5)
+
 frame = Frame()
 frame.pack(fill=X)
+
+
+
 left = Frame()
 left.pack()
 
 
-
-#temporery command to test functions
-
+# Temporary command to test functions
 def search_log():
     about()
 
@@ -44,9 +52,13 @@ def open_file():
     name = askopenfilename()
 
 def save_file():
-    name = askopenfilename()
+    open_file()
 
 def search(event):
+    """
+    :param event:
+    :return:
+    """
     if event == "1":
         print "knapp 1"
     elif event == "2":
@@ -62,6 +74,7 @@ def search(event):
     else:
         print "Disabled!"
 
+
 def GO_name(name):
     sometext=str(E.get())
     B.config(text='Loading...')
@@ -71,12 +84,10 @@ def GO_name(name):
     C.config(bg='grey')
     #return comp.isomeric_smiles
 
+
 class CreateButton:
-
     def Small(self, varb):
-        self.img2 = PhotoImage(file="firefox_icon.gif")
-
-        f1 = Frame(left, height=32, width=32)
+        f1 = Frame(topbar, height=24, width=24)
         f1.pack_propagate(0) # don't shrink
         f1.pack(side=LEFT)
         b1 = Button(f1, image=self.img2)
@@ -84,6 +95,7 @@ class CreateButton:
         b1.bind('<Button-1>', lambda(e): search(varb))
 
     def __init__(self, varb):
+        self.img2 = PhotoImage(file="firefox_icon.gif")
         self.Small(varb)
 # create a Canvas
 
@@ -122,7 +134,7 @@ C.pack(side="left", fill=X, expand=True)
 
 
 # Button
-B=Button(left,state='disabled',command=lambda: GO_name(E),text="GO!",fg="blue",bg="red",width=5)
+B = Button(left,state='disabled',command=lambda: GO_name(E),text="GO!",fg="blue",bg="red",width=5)
 B.bind('<Button-1>', search)
 
 # Entry widget
@@ -135,14 +147,12 @@ separator2.bind('<KeyRelease>',onKey)
 v = StringVar()
 
 E = Entry(frame,textvariable=v)
+E1 = Entry(topbar,textvariable=v)
 
 bu1 = CreateButton("1")
 bu2 = CreateButton("2")
 bu3 = CreateButton("3")
 
-bu1.vart = "search()"
-bu2.vart = "about()"
-bu3.vart = search("lalala")
 E.focus()
 
 
@@ -165,7 +175,6 @@ menubar.add_cascade(label="History", menu=historymenu)
 helpmenu = Menu(menubar, tearoff=0)
 helpmenu.add_command(label="About", command=about) #change command to print instructions in window
 menubar.add_cascade(label="Help", menu=helpmenu)
-
 
 # display the menu
 root.geometry("400x600")
