@@ -111,13 +111,6 @@ separator2.focus()
 
 
 
-#create OptionMenu
-var2 = StringVar(root)
-var2.set("Name") # initial value
-
-separator3 = OptionMenu(left, var2, "Name", "Smiley", "CAS")
-separator3.pack(fill=X, padx=5, pady=5)
-
 scrollbar = Scrollbar(frame)
 
 C = Text(frame, bg="white", wrap=WORD, yscrollcommand=scrollbar.set)
@@ -134,8 +127,6 @@ C.pack(side="left", fill=X, expand=True)
 
 
 # Button
-B = Button(left,state='disabled',command=lambda: GO_name(E),text="GO!",fg="blue",bg="red",width=5)
-B.bind('<Button-1>', search)
 
 # Entry widget
 
@@ -146,14 +137,25 @@ separator2.bind('<KeyRelease>',onKey)
 
 v = StringVar()
 
-E = Entry(frame,textvariable=v)
-E1 = Entry(topbar,textvariable=v)
+E = Entry(left,textvariable=v)
+
+B = Button(topbar,state='disabled',command=lambda: GO_name(E),text="GO!",fg="blue",bg="red",width=5)
+B.bind('<Button-1>', search)
+
 
 bu1 = CreateButton("1")
 bu2 = CreateButton("2")
 bu3 = CreateButton("3")
 
 E.focus()
+
+#create OptionMenu
+var2 = StringVar(root)
+var2.set("Name") # initial value
+
+separator3 = OptionMenu(topbar, var2, "Name", "Smiley", "CAS")
+separator3.pack(fill=X, padx=5, pady=5)
+
 
 
 # create a toplevel menu
