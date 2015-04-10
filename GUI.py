@@ -49,9 +49,9 @@ def save_file():
 def search(event):
     if event == "1":
         print "knapp 1"
-    if event == "2":
+    elif event == "2":
         print "knapp 2"
-    if event == "3":
+    elif event == "3":
         print "knapp " + event
     print event
     print E.get()
