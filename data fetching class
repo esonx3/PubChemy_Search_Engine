@@ -1,0 +1,163 @@
+#!/usr/bin/python
+# -*- coding: latin-1 -*-
+from Tkinter import *
+from pubchempy import *
+import CAS_DB
+
+CAS_BDTABASE = CAS_DB.CAS_DB()
+
+class Chemical:
+    def __init__(self,name='',cas='',smiles='',CID=[]):
+        self.name=name
+        self.cas=cas
+        self.smiles=smiles
+        self.running=False
+        self.CID=CID
+        
+    def __len__(self):
+        return len(self.data)
+            
+    def name_to_CID(self,name):
+        result0.config(text="")    
+        #button.config(text='Loading...')
+        #sometext=str(name.get())
+        try:
+            cid=get_compounds(name,'name')
+            #CID_to_name(cid)
+            #CID_to_smiles(cid)
+            return cid
+        except:
+            result0.config(text="Your compound most probably doesn't exist")
+        
+    
+    def smiles_to_CID(self,smiles):
+        #result0.config(text="")
+        #sometext=str(smiles.get())
+        try:
+            cid=get_compounds(smiles,'smiles')
+            #print "CID: ", cid
+            #CID_to_name(cid)
+            #CID_to_smiles(cid)
+            return cid
+        except:
+            result0.config(text="Your compound most probably doesn't exist")
+    
+    #global CAS_BDTABASE
+    #cas=str(raw_input('give a cas: '))
+    ##cid=get_compounds(smiles,'smiles')
+    #cid = CAS_BDTABASE.Find_CID_BY_CAS(cas,True)
+    #print 'cid: ' + str(cid)
+    
+    
+    def cas_to_CID(self,cas):
+        global CAS_BDTABASE
+        #sometext=str(CAS.get())
+        #print "CAS: ", sometext
+        try:
+            cid = CAS_BDTABASE.Find_CID_BY_CAS(cas,True)
+            cid=get_compounds(cid,'cid')
+            return cid
+        except:
+            result0.config(text="Your compound most probably doesn't exist" \
+                           "or is missing in the local cas database")        
+        #cid = ("Compound("+cid[0]+")",)
+        #print "CID:" , cid[0]
+    #    return int(cid[0])
+        #CID_to_name(cid)
+        #CID_to_smiles(cid)    
+    
+    
+    def send(self,name,cas,smiles):
+        if __len__(name)!=0:
+            CID=name_to_CID(name)
+        elif __len__(cas)!=0:
+            CID=cas_to_CID(cas)
+        elif __len__(smiles)!=0:
+            CID=smiles_to_CID(smiles)
+        self.CID=CID
+        return CID
+    
+    def get(self,CID):
+        CID_to_smiles(CID)
+        CID_to_nameiupac(CID)
+    
+    def CID_to_smiles(self):
+        SMILES_all=[]
+        number_of_compounds=__len__(self)
+        for i in range (0,number_of_compounds):
+            SMILES=self[i].isomeric_smiles
+            SMILES_all.append(SMILES)
+        result_smiles.config(text='smiles: '+SMILES_all[0])    
+        self.smiles=SMILES_all[0]
+
+    def CID_to_nameiupac(self):
+        names_all=[]
+        number_of_compounds=__len__(self)
+        for i in range (0,number_of_compounds):
+            nameiupac=self[i].iupac_name
+            namesiupac_all.append(str(nameiupac))
+        result_name.config(text='name: '+nameiupac[0])    
+        self.name=nameiupac_all[0]
+    
+        ##print All elements in a nice list
+        #if len(names_all) > 1:
+            #nameprint = ""
+            #for nam in names_all:
+                #nameprint += nam + " ,"
+        #else:
+            #nameprint = names_all[0]
+        #result_name.config(text='name: '+nameprint)  
+  
+      
+        
+    def __getitem__(self,key):
+        if key =='name':
+            return self.name
+        elif key=='cas':
+            return self.cas
+        elif key=='smiles':
+            return self.smiles
+        else:
+            return ''
+        
+    def __str__(self):
+        return 'This compound is named: %(name)s, has cas number: %(cas)s ' \
+               'and SMILES: %(smiles)s' % self
+    
+    
+
+def onKey(event):
+    inStr=str(entry.get())
+    button.config(state='normal')
+
+
+  
+
+root = Tk()
+label = Label(root,text='give CAS number/name/SMILES')
+entry = Entry(root)
+
+name_from_entry=entry.get()
+print name_from_entry
+result0 = Label(root,text="")
+#result_synonyms=Label(root,text="synonym:")
+result_name= Label(root,text="name: ")
+result_cas= Label(root,text="cas: ")
+result_smiles= Label(root,text="smiles: ")
+
+button=Button(text='Send',state='disabled',command=lambda:Chemical(name=name_from_entry))
+entry.bind('<KeyRelease>',onKey)
+
+
+label.pack()
+entry.pack()
+button.pack()
+result0.pack()
+#result_synonyms.pack()
+result_name.pack()
+result_cas.pack()
+result_smiles.pack()
+
+root.geometry("%dx%d%+d%+d" % (300,150,100,100))
+
+root.mainloop()
