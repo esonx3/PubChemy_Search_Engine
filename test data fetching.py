@@ -18,12 +18,6 @@ class Chemical:
         self.name_list=[]
         self.cas_list=[]
         self.smiles_list=[]
-        if len(self.name)!=0:
-            self.CID=self.name_to_CID(self.name)
-        elif len(self.cas)!=0:
-            self.CID=self.cas_to_CID(self.cas)
-        elif len(self.smiles)!=0:
-            self.CID=self.smiles_to_CID(self.smiles)
 
     def name_to_CID(self,name):
         #result0.config(text="")
@@ -77,14 +71,14 @@ class Chemical:
         #CID_to_name(cid)
         #CID_to_smiles(cid)
 
-#    def send(self,name,cas,smiles):
-#        if len(name)!=0:
-#            self.CID=name_to_CID(name)
-#        elif len(cas)!=0:
-#            self.CID=cas_to_CID(cas)
-#        elif len(smiles)!=0:
-#            self.CID=smiles_to_CID(smiles)
-#        return self.CID
+    def send(self,name,cas,smiles):
+        if len(name)!=0:
+            self.CID=self.name_to_CID(name)
+        elif len(cas)!=0:
+            self.CID=self.cas_to_CID(cas)
+        elif len(smiles)!=0:
+            self.CID=self.smiles_to_CID(smiles)
+        return self.CID
 
     def get_all(self,CID):
         self.CID_to_smiles(self.CID)
@@ -135,20 +129,37 @@ class Chemical:
         print 'cas: ' + casprint
         print 'smiles: ' + smilesprint
 
-    def __getitem__(self,key):
-        if key =='name':
-            return self.name_list[0]
-        elif key=='cas':
-            return self.cas_list[0]
-        elif key=='smiles':
-            return self.smiles_list[0]
-        else:
-            return ''
+#    def __getitem__(self,key):
+#        if key =='name':
+#            return self.name_list[0]
+#        elif key=='cas':
+#            return self.cas_list[0]
+#        elif key=='smiles':
+#            return self.smiles_list[0]
+#        else:
+#            return ''
 
 
 #    def __str__(self):
 #        return 'This compound is named: %(name)s, has cas number: %(cas)s ' \
 #               'and SMILES: %(smiles)s' % self
 
+name='glucose'
+cas=''
+smiles=''
 
-Chemical(name='aspirin')
+kemikalie=Chemical('glucose')
+print 'kemikalie nu: ' + str(kemikalie)
+
+if len(name)!=0:
+    CID=kemikalie.name_to_CID(name)
+    print CID
+    all=kemikalie.get_all(CID)
+    print all
+elif len(cas)!=0:
+    CID=kemikalie.cas_to_CID(cas)
+elif len(smiles)!=0:
+    CID=kemikalie.smiles_to_CID(smiles)
+
+
+#kemikalie.get_all()

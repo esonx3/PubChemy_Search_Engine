@@ -18,6 +18,12 @@ class Chemical:
         self.name_list=[]
         self.cas_list=[]
         self.smiles_list=[]
+        if len(name)!=0:
+            self.CID=self.name_to_CID(name)
+        elif len(cas)!=0:
+            self.CID=self.cas_to_CID(cas)
+        elif len(smiles)!=0:
+            self.CID=self.smiles_to_CID(smiles)
 
     def name_to_CID(self,name):
         #result0.config(text="")
