@@ -6,23 +6,26 @@ import CAS_DB
 
 CAS_BDTABASE = CAS_DB.CAS_DB()
 
-
-
+# Model Class
 class Chemical:
+    def __init__(self, name='', cas='', smiles=''):
+        print "Class INIT: ok"  # remove this later
+        print name
+        self.name = name
+        self.cas = cas
+        self.smiles = smiles
+        self.CID = []
+        self.name_list = []
+        self.cas_list = []
+        self.smiles_list = []
 
-    def __init__(self,name='',cas='',smiles=''):
-        self.name=name
-        self.cas=cas
-        self.smiles=smiles
-        self.CID=[]
-        self.name_list=[]
-        self.cas_list=[]
-        self.smiles_list=[]
+    def button(self):
+        print "knapp!"
 
-    def name_to_CID(self,name):
-        #result0.config(text="")
+    def name_to_CID(self):
+        result0.config(text="rrr")
         #button.config(text='Loading...')
-        self.name=str(self.name.get())
+        self.name = str(self.name.get())
         try:
             self.CID=get_compounds(self.name,'name')
             #CID_to_name(cid)
@@ -108,7 +111,7 @@ class Chemical:
         ##print All elements in a nice list
     def print_lists(self,name_list,cas_list,smiles_list):
         if len(self.name_list) > 1:
-            nameprint = ""
+            nameprint = "test"
             for nam in self.name_list:
                 nameprint += nam + " ,"
             else:
@@ -166,7 +169,8 @@ result_smiles= Label(root,text="smiles: ")
 
 defentry=name_from_entry(entry)
 
-button=Button(text='Send',state='disabled',command=lambda:Chemical(name=defentry))
+objTest = Chemical() #Create a class test from Model (Chemistry)
+button=Button(text='Send', state='disabled', command=lambda: objTest.name_to_CID())
 entry.bind('<KeyRelease>',onKey)
 
 
