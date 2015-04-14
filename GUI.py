@@ -6,11 +6,13 @@
 
 from Tkinter import *
 from tkFileDialog import askopenfilename
+from pubchempy import *
+
 def search_log():
     about()
 
 def onKey(event):
-    print "Key relesed!"#, inStr
+#    print "Key relesed!"#, inStr
     B.config(state='normal')
 
 def hello():
@@ -51,9 +53,11 @@ def search(event):
     :param event:
     :return:
     """
-
-    C.insert('1.0', separator2.get() + '\n')
-    C.image_create('1.0', image=img2)
+    print get_compounds("aspirin", 'name')
+    var_win_text = get_compounds(separator2.get(), 'name')
+    C.insert('1.0', var_win_text)
+    C.insert('1.0', "\n")
+#    C.image_create('1.0', image=img2)
     if B.cget("state"):
         print B.cget("state"), "E.get"
     else:
