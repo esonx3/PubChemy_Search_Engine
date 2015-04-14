@@ -1,6 +1,7 @@
 #Main file
 from pubchempy import *
 import CAS_DB
+import GUI
 
 CAS_BDTABASE = CAS_DB.CAS_DB()#creat an global database object
 
