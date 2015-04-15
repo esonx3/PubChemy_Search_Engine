@@ -154,6 +154,8 @@ print 'kemikalie nu: ' + str(kemikalie)
 if len(name)!=0:
     CID=kemikalie.name_to_CID(name)
     print CID
+    smiles=kemikalie.CID_to_smiles(CID)
+    print 'smiles: ' + str(smiles)
     all=kemikalie.get_all(CID)
     print all
 elif len(cas)!=0:
