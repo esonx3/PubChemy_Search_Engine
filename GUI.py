@@ -1,11 +1,9 @@
 from Tkinter import *
 from tkFileDialog import askopenfilename
 import data_fetching_class
-
+import cPickle as pickle
 from PIL_LIB import Image, ImageTk
 
-
-import png
 from pubchempy import download
 def Creat_Button(topbar,img2):
     f1 = Frame(topbar, height=24, width=24)
@@ -58,6 +56,7 @@ def search(event):
         type = GetType()
         obj = None
         error = False
+        Save_to_logg(separator2.get())#save the search-term
         if type == "Name":
             try:
                 obj = data_fetching_class.Chemical(name=separator2.get())
@@ -134,9 +133,26 @@ def go_name(B,C):
 
 def hello():
     print "hello!"
-
+def Save_to_logg(word):
+    try:
+        logg = pickle.load(open( "Logg.txt", "rb" ))
+    except:
+        logg = list()
+    if len(logg) > 50:
+        logg.pop(0)
+    logg.append(word)
+    pickle.dump(logg,open( "Logg.txt", "wb" ))
 def search_log():
-    about()
+    global C
+    try:
+        logg = pickle.load(open( "Logg.txt", "rb" ))
+    except:
+        logg = ["Empty"]
+    C.insert('1.0', "\n==============Search Logg Start=================)")
+    for obj in logg:
+        C.insert('1.0', "\n" + str(obj))
+    C.insert('1.0', "\n===============Search Logg End==================)")
+    #about()
 
 #def Gui_Start():
 root = Tk()
@@ -173,28 +189,19 @@ separator2.pack(fill=X, padx=5, pady=5)
 separator2.focus()
 
 
-#TODO need to be redone later on...
-#for g in range(1,3):
-
 #knappar....
 #img2 = PhotoImage(file="firefox_icon.gif")
-#for n in range(0,3):
+
 button = Creat_Button(topbar,img2)
-#print str(n+1)
 button.bind('<Button-1>', lambda(e): search(str(1)))
 button1 = Creat_Button(topbar,img2)
 button1.bind('<Button-1>', lambda(e): search(str(2)))
 button2 = Creat_Button(topbar,img2)
 button2.bind('<Button-1>', lambda(e): search(str(3)))
 
-#button_object = CreateButton(topbar)
-#button = button_object.small("1")
-#button.bind('<Button-1>', lambda(e): search(C,B,separator2))
 
 #bind hiden button
 B.bind('<Button-1>', search)
-
-
 
 #create OptionMenu
 var2 = StringVar(root)

@@ -1,0 +1,8 @@
+(lp1
+S'water'
+p2
+aS'oxide'
+p3
+aS'nicotin'
+p4
+a.
