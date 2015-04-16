@@ -57,34 +57,54 @@ def search(event):
     if get_last_key(event) == 0:
         type = GetType()
         obj = None
+        error = False
         if type == "Name":
-            obj = data_fetching_class.Chemical(name=separator2.get())
+            try:
+                obj = data_fetching_class.Chemical(name=separator2.get())
+            except:
+                print("Wrong formate, not Name")
+                C.insert('1.0', "\n\n WARNING!: something went wrong, probably not an NAME entered\n\n")
+                error = True
         elif type == "Smiley":
-            obj = data_fetching_class.Chemical(smiles=separator2.get())
+            try:
+                obj = data_fetching_class.Chemical(smiles=separator2.get())
+            except:
+                print("Wrong formate, not Smily")
+                C.insert('1.0', "\n\n WARNING!: something went wrong, probably not a Smily entered\n\n")
+                error = True
         else:
-            obj = data_fetching_class.Chemical(cas=separator2.get())
-
-        got_image = False
-        try:
             try:
-                imgName = str(obj.CID_to_name()[0])
+                obj = data_fetching_class.Chemical(cas=separator2.get())
             except:
-                imgName = str(obj.CID_to_name())
-            got_image = DownloadeImage(imgName)
-        except:
-            print("failed in getting an name..")
-        #print to output window
-        print '\nAll found names for the input chemical are: \n' + obj['name_list_print']
-        C.insert('1.0', "\n found object(s): "+str(obj['name_list_print']))
-        separator2.delete(0, END)
-        if got_image:
+                print("Wrong formate, not CAS")
+                C.insert('1.0', "\n\n WARNING!: something went wrong, probably not a CAS entered\n\n")
+                error = True
+        if not error:
+            got_image = False
             try:
-                image = Image.open("img.png")
-                C.insert('1.0', "\n\n Name of image: "+ str(obj.CID_to_name()[0]))
-                img5 = ImageTk.PhotoImage(image)
-                C.image_create('1.0', image=img5)
+                try:
+                    imgName = str(obj.CID_to_name()[0])
+                except:
+                    imgName = str(obj.CID_to_name())
+                got_image = DownloadeImage(imgName)
             except:
-                pass
+                print("failed in getting a name..")
+            #print to output window
+            #print '\nAll found names for the input chemical are: \n' + obj['name_list_print']
+            try:
+                C.insert('1.0', "\n found object(s): "+str(obj['name_list_print']))
+            except:
+                print("error in data fetching")
+                C.insert('1.0', "\n\n WARNING!: something went wrong, probably an invalid value entered\n\n")
+            separator2.delete(0, END)
+            if got_image:
+                try:
+                    image = Image.open("img.png")
+                    C.insert('1.0', "\n\n Name of image: "+ str(obj.CID_to_name()[0]))
+                    img5 = ImageTk.PhotoImage(image)
+                    C.image_create('1.0', image=img5)
+                except:
+                    pass
 
 def DownloadeImage(Name,type="name"):
     print("data fetching goten,",Name)
