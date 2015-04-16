@@ -2,7 +2,7 @@ from Tkinter import *
 from tkFileDialog import askopenfilename
 import data_fetching_class
 
-from PIL import Image, ImageTk
+from PIL_LIB import Image, ImageTk
 
 
 import png
