@@ -13,7 +13,7 @@ class CAS_DB:
     #out: loaded db if success, None if fails
     def Loade_CAS_DB(self):
         try:
-            return pickle.load(open( "CAS_Cid.txt", "rb" ))
+            return pickle.load(open( "cas_cid.txt", "rb" ))
         except:
             return None
 

@@ -3,7 +3,7 @@ import cPickle as pickle
 print "started"
 
 #This function is used to update the local CAS to CID db
-#It loades an page as an string, finds the needed values and updates the file CAS_Cid.txt
+#It loades an page as an string, finds the needed values and updates the file cas_cid.txt
 
 
 #WARNING!
@@ -17,7 +17,7 @@ def DownloadDB(start,end):
     current = start
     #ListOfFoundObjects = list()
     #dicti = {}
-    dicti = pickle.load(open( "CAS_Cid.txt", "rb" ))
+    dicti = pickle.load(open( "cas_cid.txt", "rb" ))
     while current <= end:
         try:
             print "Updating valu: ", current
@@ -82,10 +82,10 @@ def DownloadDB(start,end):
     print "Done!"
     #for obj in ListOfFoundObjects:
     #    print "CAS: ", obj[0], " CID: ", obj[1]
-    pickle.dump(dicti,open( "CAS_Cid.txt", "wb" ))
+    pickle.dump(dicti,open( "cas_cid.txt", "wb" ))
 #TODO comment here
 def openandprint():
-    dicti = pickle.load(open( "CAS_Cid.txt", "rb" ))
+    dicti = pickle.load(open( "cas_cid.txt", "rb" ))
     con = 0
     for keys,values in dicti.items():
         con += 1
@@ -93,14 +93,14 @@ def openandprint():
     print "total ", con,"CAS cid's found!"
 #TODO comment here
 def Cleaner():
-    dicti = pickle.load(open( "CAS_Cid.txt", "rb" ))
+    dicti = pickle.load(open( "cas_cid.txt", "rb" ))
     for keys,values in dicti.items():
         try:
             if values[0] == 'RecordNumber' or values[0] == ' ' :
               del dicti[keys]
         except:
             pass
-    pickle.dump(dicti,open( "CAS_Cid.txt", "wb" ))
+    pickle.dump(dicti,open( "cas_cid.txt", "wb" ))
 DownloadDB(13001,15000)
 Cleaner()
 print "Done!"
