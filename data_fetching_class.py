@@ -6,8 +6,6 @@ import CAS_DB
 
 CAS_BDTABASE = CAS_DB.CAS_DB()
 
-
-
 class Chemical:
     def __init__(self,name='',cas='',smiles=''):
         self.name=name
