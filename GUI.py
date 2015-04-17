@@ -6,7 +6,7 @@ from PIL_LIB import Image, ImageTk
 
 from pubchempy import download
 def Creat_Button(topbar,img2):
-    f1 = Frame(topbar, height=24, width=24)
+    f1 = Frame(topbar, height=28, width=120)
     f1.pack_propagate(0)  # don't shrink
     f1.pack(side=LEFT)
     b1 = Button(f1, image=img2)
@@ -34,50 +34,94 @@ def GetType():
     global var2
     print "selected: ", var2.get()
     return var2.get()
-
+def search_Array(array,logg=False):
+    global Save_File
+    global C
+    max = len(array)
+    lengd = max
+    for target in array:
+        type = GetType()
+        action = action_by_type(type,target)
+        error = action[0]
+        obj = action[1]
+        if logg:
+            Save_to_logg(str(target))#save the search-term
+        if not error:
+            try:
+                Name = str(obj.CID_to_name()[0])
+            except:
+                Name = str(obj.CID_to_name())
+            try:
+                smile = str(obj.CID_to_smiles()[0])
+            except:
+                smile = str(obj.CID_to_smiles())
+            try:
+                CAS = obj.CID_to_CAS()
+                try:
+                    tmp = ""
+                    for t in CAS:
+                        tmp += str(t) + " , "
+                    CAS = tmp
+                except:
+                    CAS = str(CAS)
+            except:
+               CAS = "not found"
+            SaveString = "\nName: " + Name + " Smile: " + smile + " CAS: " + CAS
+            C.insert('1.0', "\nItem: "+str(lengd) + "/" + str(max) + ":" + SaveString + "\n")
+            print SaveString
+            f = open(Save_File, "a")
+            f.write(SaveString)
+            f.close()
+            lengd -= 1
+    C.insert('1.0',"\n")
+    return True
+def action_by_type(type,Data):
+    obj = None
+    error = False
+    if type == "Name":
+        try:
+            obj = data_fetching_class.Chemical(name=Data)
+        except:
+            print("Wrong formate, not Name")
+            C.insert('1.0', "\n\n WARNING!: something went wrong, probably not an NAME entered\n\n")
+            error = True
+    elif type == "Smiley":
+        try:
+            obj = data_fetching_class.Chemical(smiles=Data)
+        except:
+            print("Wrong formate, not Smily")
+            C.insert('1.0', "\n\n WARNING!: something went wrong, probably not a Smily entered\n\n")
+            error = True
+    else:
+        try:
+            obj = data_fetching_class.Chemical(cas=Data)
+        except:
+            print("Wrong formate, not CAS")
+            C.insert('1.0', "\n\n WARNING!: something went wrong, probably not a CAS entered\n\n")
+            error = True
+    print "action by type return: ", [error,obj]
+    return [error,obj]
 def search(event):
     global C
     global B
     global img5
     global separator2
+    Data = separator2.get()
     """
     :param event:
     :return:
     """
     #var_win_text = get_compounds(separator2.get(), 'name')
     #C.insert('1.0', var_win_text)
-    print "search", event
-    C.insert('1.0', "\n")
-    if B.cget("state"):
-        print B.cget("state"), "E.get"
-    else:
-        print "Disabled!"
-    if get_last_key(event) == 0:
+    #print "search", event
+    #C.insert('1.0', "\n")
+    num = get_last_key(event)
+    if num == 0:
         type = GetType()
-        obj = None
-        error = False
-        Save_to_logg(separator2.get())#save the search-term
-        if type == "Name":
-            try:
-                obj = data_fetching_class.Chemical(name=separator2.get())
-            except:
-                print("Wrong formate, not Name")
-                C.insert('1.0', "\n\n WARNING!: something went wrong, probably not an NAME entered\n\n")
-                error = True
-        elif type == "Smiley":
-            try:
-                obj = data_fetching_class.Chemical(smiles=separator2.get())
-            except:
-                print("Wrong formate, not Smily")
-                C.insert('1.0', "\n\n WARNING!: something went wrong, probably not a Smily entered\n\n")
-                error = True
-        else:
-            try:
-                obj = data_fetching_class.Chemical(cas=separator2.get())
-            except:
-                print("Wrong formate, not CAS")
-                C.insert('1.0', "\n\n WARNING!: something went wrong, probably not a CAS entered\n\n")
-                error = True
+        action = action_by_type(type,Data)
+        error = action[0]
+        obj = action[1]
+        Save_to_logg(Data)#save the search-term
         if not error:
             got_image = False
             try:
@@ -104,7 +148,16 @@ def search(event):
                     C.image_create('1.0', image=img5)
                 except:
                     pass
-
+    elif num == 1:
+        open_file()
+    elif num == 2:
+        save_file()
+    else:
+        pass
+    if B.cget("state"):
+        print B.cget("state"), "E.get"
+    else:
+        print "Disabled!"
 def DownloadeImage(Name,type="name"):
     print("data fetching goten,",Name)
     try:
@@ -122,15 +175,36 @@ def about():
     button.pack()
 
 def open_file():
-    name = askopenfilename()
+    global Open_File
+    global Save_File
+    global C
+    if Save_File != None:
+        Open_File = askopenfilename(filetypes=[("Text files","*.txt")])
+        print "selected file:" , Open_File
+        word_array = read_file()
+        status = search_Array(word_array,logg=True)
+        if status:
+            C.insert('1.0', "\nDONE!\nSave data to:\n" + str(Save_File))
+    else:
+        print "Save file not selected"
+        C.insert('1.0', "\nSave file not selected!\n")
 
 def save_file():
-    pass
+    global Save_File
+    Save_File = askopenfilename(filetypes=[("Text files","*.txt")])
+    print "selected file:" , Save_File
 
 def go_name(B,C):
     B.config(text='Loading...')
     C.config(bg='grey')
-
+def read_file():
+    global Open_File
+    f = open(Open_File, 'r+')
+    Content = f.read()
+    StringArray = Content.splitlines(False)
+    print StringArray
+    f.close()
+    return StringArray
 def hello():
     print "hello!"
 def Save_to_logg(word):
@@ -153,6 +227,12 @@ def search_log():
         C.insert('1.0', "\n" + str(obj))
     C.insert('1.0', "\n===============Search Logg End==================)")
     #about()
+
+#file to open
+Open_File = None
+#File to save in
+Save_File = None
+
 
 #def Gui_Start():
 root = Tk()
@@ -191,10 +271,12 @@ separator2.focus()
 
 #knappar....
 #img2 = PhotoImage(file="firefox_icon.gif")
-
-button = Creat_Button(topbar,img2)
+save_img = PhotoImage(file="SaveFile.gif")
+Load_img = PhotoImage(file="LoadeFile.gif")
+img2 = PhotoImage(file="firefox_icon.gif")
+button = Creat_Button(topbar,Load_img)
 button.bind('<Button-1>', lambda(e): search(str(1)))
-button1 = Creat_Button(topbar,img2)
+button1 = Creat_Button(topbar,save_img)
 button1.bind('<Button-1>', lambda(e): search(str(2)))
 button2 = Creat_Button(topbar,img2)
 button2.bind('<Button-1>', lambda(e): search(str(3)))

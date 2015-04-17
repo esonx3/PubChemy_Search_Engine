@@ -52,7 +52,15 @@ class Chemical:
     #cid = CAS_BDTABASE.Find_CID_BY_CAS(cas,True)
     #print 'cid: ' + str(cid)
 
-
+    def CID_to_CAS(self):
+        #if self.cas == '':
+        try:
+            self.cas = CAS_BDTABASE.Find_CAS_BY_CID(self.CID[0].cid)
+        except:
+            print "No cid found.."
+        return self.cas
+        #else:
+         #   return self.cas
     def cas_to_CID(self,cas):
         global CAS_BDTABASE
         try:
