@@ -14,8 +14,9 @@ def Creat_Button(topbar,img2):
     return b1
 
 def onKey(event):
+    pass
     #B.config(state='normal')
-    print ("lol")
+#    print ("lol")
 
 def get_last_key(event):
     if event == "1":
