@@ -330,6 +330,7 @@ menubar.add_cascade(underline="0", label="File", menu=filemenu)
 historymenu = Menu(menubar, tearoff=0)
 historymenu.add_command(label="Search log", command=search_log)
 historymenu.add_command(label="Random function", command=hello)
+historymenu.add_command(label="Clear window", command=hello)
 menubar.add_cascade(label="History", menu=historymenu)
 
 helpmenu = Menu(menubar, tearoff=0)
