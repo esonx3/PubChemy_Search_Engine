@@ -325,7 +325,7 @@ filemenu.add_command(label="Open file", command=open_file)  # change command to 
 filemenu.add_command(label="Select save file", command=save_file)  # change command to "save file"
 filemenu.add_separator()
 filemenu.add_command(label="Exit", command=root.quit)
-menubar.add_cascade(label="File", menu=filemenu)
+menubar.add_cascade(underline="0", label="File", menu=filemenu)
 
 historymenu = Menu(menubar, tearoff=0)
 historymenu.add_command(label="Search log", command=search_log)
