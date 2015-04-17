@@ -127,11 +127,11 @@ def search(event):
     """
     num = get_last_key(event)
     if num == 0:
-        type = GetType()
+        type = get_type()
         action = action_by_type(type,Data)
         error = action[0]
         obj = action[1]
-        Save_to_logg(Data)#save the search-term
+        save_to_log(Data)#save the search-term
         if not error:
             got_image = False
             try:
