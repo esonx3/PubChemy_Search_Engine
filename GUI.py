@@ -299,8 +299,8 @@ separator2.bind('<KeyRelease>',onKey) #Does nothing? reacting on key release
 menubar = Menu(root)
 # create pulldown menus, and add them to the menu bar
 filemenu = Menu(menubar, tearoff=0)
-filemenu.add_command(label="Open", command=open_file)  # change command to "read file"
-filemenu.add_command(label="Save", command=save_file)  # change command to "save file"
+filemenu.add_command(label="Open file", command=open_file)  # change command to "read file"
+filemenu.add_command(label="Select save file", command=save_file)  # change command to "save file"
 filemenu.add_separator()
 filemenu.add_command(label="Exit", command=root.quit)
 menubar.add_cascade(label="File", menu=filemenu)
