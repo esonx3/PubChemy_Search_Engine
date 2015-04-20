@@ -5,7 +5,7 @@ import cPickle as pickle
 from PIL_LIB import Image, ImageTk
 
 from pubchempy import download
-def Creat_Button(topbar,img2):
+def creat_button(topbar,img2):
     f1 = Frame(topbar, height=28, width=120)
     f1.pack_propagate(0)  # don't shrink
     f1.pack(side=LEFT)
@@ -13,9 +13,8 @@ def Creat_Button(topbar,img2):
     b1.pack(fill=BOTH, expand=1)
     return b1
 
-def onKey(event):
-    #B.config(state='normal')
-    print ("lol")
+def on_key(event):
+    pass
 
 def get_last_key(event):
     if event == "1":
@@ -25,27 +24,50 @@ def get_last_key(event):
         print "knapp 2"
         return 2
     elif event == "3":
-        print "knapp " + event
+        print "knapp 3"
         return 3
     else:                       # remove the old text from the "enter window"
         print "enterkey..."
         return 0
-def GetType():
+
+def get_type():
     global var2
     print "selected: ", var2.get()
     return var2.get()
-def search_Array(array,logg=False):
+def search_array(array,logg=False):
     global Save_File
     global C
+    global img5
     max = len(array)
     lengd = max
+    first = True
     for target in array:
-        type = GetType()
+        type = get_type()
         action = action_by_type(type,target)
         error = action[0]
         obj = action[1]
+        if first:
+            first = False
+            got_image = False
+            try:
+                try:
+                    imgName = str(obj.CID_to_name()[0])
+                except:
+                    imgName = str(obj.CID_to_name())
+                got_image = download_image(imgName)
+            except:
+                print("failed in getting a name..")
+            if got_image:
+                print("Got Image")
+                #try:
+                image = Image.open("img.png")
+                C.insert('1.0', "\n\n Name of image: "+ str(obj.CID_to_name()[0]))
+                img5 = ImageTk.PhotoImage(image)
+                C.image_create('1.0', image=img5)
+                #except:
+                #   pass
         if logg:
-            Save_to_logg(str(target))#save the search-term
+            save_to_log(str(target))#save the search-term
         if not error:
             try:
                 Name = str(obj.CID_to_name()[0])
@@ -117,11 +139,11 @@ def search(event):
     #C.insert('1.0', "\n")
     num = get_last_key(event)
     if num == 0:
-        type = GetType()
+        type = get_type()
         action = action_by_type(type,Data)
         error = action[0]
         obj = action[1]
-        Save_to_logg(Data)#save the search-term
+        save_to_log(Data)#save the search-term
         if not error:
             got_image = False
             try:
@@ -129,7 +151,7 @@ def search(event):
                     imgName = str(obj.CID_to_name()[0])
                 except:
                     imgName = str(obj.CID_to_name())
-                got_image = DownloadeImage(imgName)
+                got_image = download_image(imgName)
             except:
                 print("failed in getting a name..")
             #print to output window
@@ -158,7 +180,7 @@ def search(event):
         print B.cget("state"), "E.get"
     else:
         print "Disabled!"
-def DownloadeImage(Name,type="name"):
+def download_image(Name,type="name"):
     print("data fetching goten,",Name)
     try:
         download('PNG', 'img.png', Name,type,overwrite=True)
@@ -182,7 +204,7 @@ def open_file():
         Open_File = askopenfilename(filetypes=[("Text files","*.txt")])
         print "selected file:" , Open_File
         word_array = read_file()
-        status = search_Array(word_array,logg=True)
+        status = search_array(word_array,logg=True)
         if status:
             C.insert('1.0', "\nDONE!\nSave data to:\n" + str(Save_File))
     else:
@@ -207,7 +229,7 @@ def read_file():
     return StringArray
 def hello():
     print "hello!"
-def Save_to_logg(word):
+def save_to_log(word):
     try:
         logg = pickle.load(open( "Logg.txt", "rb" ))
     except:
@@ -274,12 +296,10 @@ separator2.focus()
 save_img = PhotoImage(file="img/icon_savefile.gif")
 Load_img = PhotoImage(file="img/icon_loadfile.gif")
 img2 = PhotoImage(file="img/icon_loadfile.gif")
-button = Creat_Button(topbar,Load_img)
+button = creat_button(topbar,Load_img)
 button.bind('<Button-1>', lambda(e): search(str(1)))
-button1 = Creat_Button(topbar,save_img)
+button1 = creat_button(topbar,save_img)
 button1.bind('<Button-1>', lambda(e): search(str(2)))
-button2 = Creat_Button(topbar,img2)
-button2.bind('<Button-1>', lambda(e): search(str(3)))
 
 
 #bind hiden button
@@ -293,7 +313,7 @@ separator3.pack(fill=X, padx=5, pady=5)
 
 
 separator2.bind('<Return>',search)
-separator2.bind('<KeyRelease>',onKey) #Does nothing? reacting on key release
+separator2.bind('<KeyRelease>',on_key) #Does nothing? reacting on key release
 
 # create a toplevel menu
 menubar = Menu(root)
