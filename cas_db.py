@@ -1,6 +1,8 @@
 import cPickle as pickle
 #CAS_DB
 #contains needed functions to handle the local CAS db
+
+
 class CAS_DB:
 
     CAS_DB_L = {}#Global Database
@@ -13,7 +15,7 @@ class CAS_DB:
     #out: loaded db if success, None if fails
     def Loade_CAS_DB(self):
         try:
-            return pickle.load(open( "cas_cid.txt", "rb" ))
+            return pickle.load(open( "CAS_Cid.txt", "rb" ))
         except:
             return None
 
