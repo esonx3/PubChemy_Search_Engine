@@ -68,7 +68,7 @@ def search_array(array,logg=False):
             if got_image:
                 print("Got Image")
                 #try:
-                image = Image.open("img.png")
+                image = Image.open("img/img.png")
                 C.insert('1.0', "\n\n Name of image: "+ str(obj.CID_to_name()[0]))
                 img5 = ImageTk.PhotoImage(image)
                 C.image_create('1.0', image=img5)
@@ -172,7 +172,7 @@ def search(event):
             separator2.delete(0, END)
             if got_image:
                 try:
-                    image = Image.open("img.png")
+                    image = Image.open("img/img.png")
                     C.insert('1.0', "\n\n Name of image: "+ str(obj.CID_to_name()[0]))
                     img5 = ImageTk.PhotoImage(image)
                     C.image_create('1.0', image=img5)
@@ -193,7 +193,7 @@ def search(event):
 def download_image(Name,type="name"):
     print("data fetching goten,",Name)
     try:
-        download('PNG', 'img.png', Name,type,overwrite=True)
+        download('PNG', 'img/img.png', Name,type,overwrite=True)
         return True
     except:
         return False
