@@ -1,14 +1,11 @@
-# This program is a Tkinter GUI application that interacts with PubChem database
-
 from Tkinter import *
 from tkFileDialog import askopenfilename
 import data_fetching_class
 import cPickle as pickle
 from PIL_LIB import Image, ImageTk
+
 from pubchempy import download
-
-
-def create_button(topbar, img2):
+def Creat_Button(topbar,img2):
     f1 = Frame(topbar, height=28, width=120)
     f1.pack_propagate(0)  # don't shrink
     f1.pack(side=LEFT)
@@ -16,12 +13,9 @@ def create_button(topbar, img2):
     b1.pack(fill=BOTH, expand=1)
     return b1
 
-
-def on_key(event):
-    pass
+def onKey(event):
     #B.config(state='normal')
-#    print ("lol")
-
+    print ("lol")
 
 def get_last_key(event):
     if event == "1":
@@ -36,15 +30,11 @@ def get_last_key(event):
     else:                       # remove the old text from the "enter window"
         print "enterkey..."
         return 0
-
-
-def get_type():
+def GetType():
     global var2
     print "selected: ", var2.get()
     return var2.get()
-
-
-def search_array(array,logg=False):
+def search_Array(array,logg=False):
     global Save_File
     global C
     max = len(array)
@@ -85,8 +75,6 @@ def search_array(array,logg=False):
             lengd -= 1
     C.insert('1.0',"\n")
     return True
-
-
 def action_by_type(type,Data):
     obj = None
     error = False
@@ -111,10 +99,8 @@ def action_by_type(type,Data):
             print("Wrong formate, not CAS")
             C.insert('1.0', "\n\n WARNING!: something went wrong, probably not a CAS entered\n\n")
             error = True
-    print "action by type return: ", [error, obj]
-    return [error, obj]
-
-
+    print "action by type return: ", [error,obj]
+    return [error,obj]
 def search(event):
     global C
     global B
@@ -125,13 +111,17 @@ def search(event):
     :param event:
     :return:
     """
+    #var_win_text = get_compounds(separator2.get(), 'name')
+    #C.insert('1.0', var_win_text)
+    #print "search", event
+    #C.insert('1.0', "\n")
     num = get_last_key(event)
     if num == 0:
-        type = get_type()
+        type = GetType()
         action = action_by_type(type,Data)
         error = action[0]
         obj = action[1]
-        save_to_log(Data)#save the search-term
+        Save_to_logg(Data)#save the search-term
         if not error:
             got_image = False
             try:
@@ -142,6 +132,8 @@ def search(event):
                 got_image = DownloadeImage(imgName)
             except:
                 print("failed in getting a name..")
+            #print to output window
+            #print '\nAll found names for the input chemical are: \n' + obj['name_list_print']
             try:
                 C.insert('1.0', "\n found object(s): "+str(obj['name_list_print']))
             except:
@@ -166,17 +158,13 @@ def search(event):
         print B.cget("state"), "E.get"
     else:
         print "Disabled!"
-
-
-def download_image(Name,type="name"):
+def DownloadeImage(Name,type="name"):
     print("data fetching goten,",Name)
     try:
         download('PNG', 'img.png', Name,type,overwrite=True)
         return True
     except:
         return False
-
-
 def about():
     top = Toplevel()
     top.title("Python PubChem App")
@@ -185,7 +173,6 @@ def about():
 
     button = Button(top, text="Ok", command=top.destroy)
     button.pack()
-
 
 def open_file():
     global Open_File
@@ -202,18 +189,14 @@ def open_file():
         print "Save file not selected"
         C.insert('1.0', "\nSave file not selected!\n")
 
-
 def save_file():
     global Save_File
     Save_File = askopenfilename(filetypes=[("Text files","*.txt")])
     print "selected file:" , Save_File
 
-
 def go_name(B,C):
     B.config(text='Loading...')
     C.config(bg='grey')
-
-
 def read_file():
     global Open_File
     f = open(Open_File, 'r+')
@@ -222,41 +205,36 @@ def read_file():
     print StringArray
     f.close()
     return StringArray
-
-
 def hello():
     print "hello!"
-
-
-def save_to_log(word):
+def Save_to_logg(word):
     try:
-        log = pickle.load(open( "log.txt", "rb" ))
+        logg = pickle.load(open( "Logg.txt", "rb" ))
     except:
-        log = list()
-    if len(log) > 50:
-        log.pop(0)
-    log.append(word)
-    pickle.dump(log,open( "log.txt", "wb" ))
-
-
+        logg = list()
+    if len(logg) > 50:
+        logg.pop(0)
+    logg.append(word)
+    pickle.dump(logg,open( "Logg.txt", "wb" ))
 def search_log():
     global C
     try:
-        log = pickle.load(open( "log.txt", "rb" ))
+        logg = pickle.load(open( "Logg.txt", "rb" ))
     except:
-        log = ["Empty"]
-    C.insert('1.0', "\n==============Search log Start=================)")
-    for obj in log:
+        logg = ["Empty"]
+    C.insert('1.0', "\n==============Search Logg Start=================)")
+    for obj in logg:
         C.insert('1.0', "\n" + str(obj))
-    C.insert('1.0', "\n===============Search log End==================)")
+    C.insert('1.0', "\n===============Search Logg End==================)")
+    #about()
 
-# file to open
-open_file = None
-# File to save in
-save_file = None
+#file to open
+Open_File = None
+#File to save in
+Save_File = None
 
 
-# def Gui_Start():
+#def Gui_Start():
 root = Tk()
 topbar = Frame(height=300)
 topbar.pack(fill=X)
@@ -268,8 +246,8 @@ frame.pack(fill=X)
 #creat an scrollbar to the frame
 scrollbar = Scrollbar(frame)
 
-#img2 = PhotoImage(file="firefox_icon.gif")
-#img5 = PhotoImage(file="firefox_icon.gif")
+img2 = PhotoImage(file="img/icon_loadfile.gif")
+img5 = PhotoImage(file="img/icon_loadfile.gif")
 
 #text area for output
 C = Text(frame, bg="white", wrap=WORD, yscrollcommand=scrollbar.set)
@@ -294,14 +272,14 @@ separator2.focus()
 #knappar....
 #img2 = PhotoImage(file="firefox_icon.gif")
 save_img = PhotoImage(file="img/icon_savefile.gif")
-load_img = PhotoImage(file="img/icon_loadfile.gif")
-# img2 = PhotoImage(file="firefox_icon.gif")
-button = create_button(topbar,load_img)
+Load_img = PhotoImage(file="img/icon_loadfile.gif")
+img2 = PhotoImage(file="img/icon_loadfile.gif")
+button = Creat_Button(topbar,Load_img)
 button.bind('<Button-1>', lambda(e): search(str(1)))
-button1 = create_button(topbar,save_img)
+button1 = Creat_Button(topbar,save_img)
 button1.bind('<Button-1>', lambda(e): search(str(2)))
-# button2 = create_button(topbar,img2)
-# button2.bind('<Button-1>', lambda(e): search(str(3)))
+button2 = Creat_Button(topbar,img2)
+button2.bind('<Button-1>', lambda(e): search(str(3)))
 
 
 #bind hiden button
@@ -315,7 +293,7 @@ separator3.pack(fill=X, padx=5, pady=5)
 
 
 separator2.bind('<Return>',search)
-separator2.bind('<KeyRelease>', on_key) #Does nothing? reacting on key release
+separator2.bind('<KeyRelease>',onKey) #Does nothing? reacting on key release
 
 # create a toplevel menu
 menubar = Menu(root)
@@ -325,12 +303,11 @@ filemenu.add_command(label="Open file", command=open_file)  # change command to 
 filemenu.add_command(label="Select save file", command=save_file)  # change command to "save file"
 filemenu.add_separator()
 filemenu.add_command(label="Exit", command=root.quit)
-menubar.add_cascade(underline="0", label="File", menu=filemenu)
+menubar.add_cascade(label="File", menu=filemenu)
 
 historymenu = Menu(menubar, tearoff=0)
 historymenu.add_command(label="Search log", command=search_log)
 historymenu.add_command(label="Random function", command=hello)
-historymenu.add_command(label="Clear window", command=hello)
 menubar.add_cascade(label="History", menu=historymenu)
 
 helpmenu = Menu(menubar, tearoff=0)
