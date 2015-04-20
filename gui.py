@@ -1,10 +1,13 @@
+# Application for PubChemy
+
 from Tkinter import *
 from tkFileDialog import askopenfilename
 import data_fetching_class
 import cPickle as pickle
 from PIL_LIB import Image, ImageTk
-
 from pubchempy import download
+
+
 def create_button(topbar,img2):
     f1 = Frame(topbar, height=28, width=120)
     f1.pack_propagate(0)  # don't shrink
@@ -13,8 +16,10 @@ def create_button(topbar,img2):
     b1.pack(fill=BOTH, expand=1)
     return b1
 
+
 def on_key(event):
     pass
+
 
 def get_last_key(event):
     if event == "1":
@@ -30,10 +35,13 @@ def get_last_key(event):
         print "enterkey..."
         return 0
 
+
 def get_type():
     global var2
     print "selected: ", var2.get()
     return var2.get()
+
+
 def search_array(array,logg=False):
     global Save_File
     global C
@@ -97,6 +105,8 @@ def search_array(array,logg=False):
             lengd -= 1
     C.insert('1.0',"\n")
     return True
+
+
 def action_by_type(type,Data):
     obj = None
     error = False
@@ -123,16 +133,14 @@ def action_by_type(type,Data):
             error = True
     print "action by type return: ", [error,obj]
     return [error,obj]
+
+
 def search(event):
     global C
     global B
     global img5
     global separator2
     Data = separator2.get()
-    """
-    :param event:
-    :return:
-    """
     #var_win_text = get_compounds(separator2.get(), 'name')
     #C.insert('1.0', var_win_text)
     #print "search", event
@@ -180,6 +188,8 @@ def search(event):
         print B.cget("state"), "E.get"
     else:
         print "Disabled!"
+
+
 def download_image(Name,type="name"):
     print("data fetching goten,",Name)
     try:
@@ -187,6 +197,8 @@ def download_image(Name,type="name"):
         return True
     except:
         return False
+
+
 def about():
     top = Toplevel()
     top.title("Python PubChem App")
@@ -195,6 +207,7 @@ def about():
 
     button = Button(top, text="Ok", command=top.destroy)
     button.pack()
+
 
 def open_file():
     global Open_File
@@ -211,14 +224,18 @@ def open_file():
         print "Save file not selected"
         C.insert('1.0', "\nSave file not selected!\n")
 
+
 def save_file():
     global Save_File
     Save_File = askopenfilename(filetypes=[("Text files","*.txt")])
     print "selected file:" , Save_File
 
+
 def go_name(B,C):
     B.config(text='Loading...')
     C.config(bg='grey')
+
+
 def read_file():
     global Open_File
     f = open(Open_File, 'r+')
@@ -227,8 +244,12 @@ def read_file():
     print StringArray
     f.close()
     return StringArray
+
+
 def hello():
     print "hello!"
+
+
 def save_to_log(word):
     try:
         logg = pickle.load(open( "Logg.txt", "rb" ))
@@ -238,6 +259,8 @@ def save_to_log(word):
         logg.pop(0)
     logg.append(word)
     pickle.dump(logg,open( "Logg.txt", "wb" ))
+
+
 def search_log():
     global C
     try:
