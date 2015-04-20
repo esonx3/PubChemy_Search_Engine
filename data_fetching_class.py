@@ -26,6 +26,7 @@ class Chemical:
         self.smiles_list_print=''
         self.cas_list_print=''
 
+
     def name_to_CID(self,name):
         try:
             self.CID=get_compounds(self.name,'name')
@@ -51,6 +52,7 @@ class Chemical:
     #cid = CAS_BDTABASE.Find_CID_BY_CAS(cas,True)
     #print 'cid: ' + str(cid)
 
+
     def CID_to_CAS(self):
         #if self.cas == '':
         try:
@@ -71,10 +73,12 @@ class Chemical:
         except:
             return self.CID
 
+
     def get_all(self):
         smile = self.CID_to_smiles()
         name = self.CID_to_name()
         return [smile, name]
+
 
     def CID_to_smiles(self):
         number_of_compounds=len(self.CID)
@@ -83,12 +87,14 @@ class Chemical:
             self.smiles_list.append(SMILES)
         return self.smiles_list
 
+
     def CID_to_name(self):
         number_of_compounds=len(self.CID)
         for i in range (0,number_of_compounds):
             name=self.CID[i].iupac_name
             self.name_list.append(str(name))
         return self.name_list
+
 
     def __getitem__(self,key):
         if key =='name':
