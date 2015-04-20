@@ -5,7 +5,7 @@ import cPickle as pickle
 from PIL_LIB import Image, ImageTk
 
 from pubchempy import download
-def creat_button(topbar,img2):
+def create_button(topbar,img2):
     f1 = Frame(topbar, height=28, width=120)
     f1.pack_propagate(0)  # don't shrink
     f1.pack(side=LEFT)
@@ -296,9 +296,9 @@ separator2.focus()
 save_img = PhotoImage(file="img/icon_savefile.gif")
 Load_img = PhotoImage(file="img/icon_loadfile.gif")
 img2 = PhotoImage(file="img/icon_loadfile.gif")
-button = creat_button(topbar,Load_img)
+button = create_button(topbar,Load_img)
 button.bind('<Button-1>', lambda(e): search(str(1)))
-button1 = creat_button(topbar,save_img)
+button1 = create_button(topbar,save_img)
 button1.bind('<Button-1>', lambda(e): search(str(2)))
 
 
