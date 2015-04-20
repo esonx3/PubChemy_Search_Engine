@@ -2,9 +2,10 @@
 # -*- coding: latin-1 -*-
 from Tkinter import *
 from pubchempy import *
-import cas_db
+import CAS_DB
 
-CAS_BDTABASE = cas_db.CAS_DB()
+CAS_BDTABASE = CAS_DB.CAS_DB()
+
 
 class Chemical:
     def __init__(self,name='',cas='',smiles=''):
