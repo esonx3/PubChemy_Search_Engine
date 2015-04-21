@@ -233,7 +233,11 @@ def read_file():
 
 
 def hello():
-    print "hello!"
+    global C
+    import random
+    rand=['Hello!','Surprise!','This is a random function!','Bored?',"I'm sick of it!"]
+    C.insert('1.0',"\n"+random.choice(rand)+"\n"+"\n")
+    #print "hello!"
 
 
 def save_to_log(word):
