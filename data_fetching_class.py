@@ -32,6 +32,7 @@ class Chemical:
             self.CID=get_compounds(self.name,'name')
             self.CID_to_name()
             self.CID_to_smiles()
+            self.CID_to_CAS()
             return self.CID
         except:
             return self.CID
@@ -42,6 +43,7 @@ class Chemical:
             self.CID=get_compounds(smiles,'smiles')
             self.CID_to_name()
             self.CID_to_smiles()
+            self.CID_to_CAS()
             return self.CID
         except:
             return self.CID
@@ -53,15 +55,7 @@ class Chemical:
     #print 'cid: ' + str(cid)
 
 
-    def CID_to_CAS(self):
-        #if self.cas == '':
-        try:
-            self.cas = CAS_BDTABASE.Find_CAS_BY_CID(self.CID[0].cid)
-        except:
-            print "No cid found.."
-        return self.cas
-        #else:
-         #   return self.cas
+
     def cas_to_CID(self,cas):
         global CAS_BDTABASE
         try:
@@ -69,16 +63,21 @@ class Chemical:
             self.CID=get_compounds(self.CID,'cid')
             self.CID_to_name()
             self.CID_to_smiles()
+            self.CID_to_CAS()
             return self.CID
         except:
             return self.CID
 
 
-    def get_all(self):
-        smile = self.CID_to_smiles()
-        name = self.CID_to_name()
-        return [smile, name]
-
+    def CID_to_CAS(self):
+        #if self.cas == '':
+        try:
+            self.cas_list = CAS_BDTABASE.Find_CAS_BY_CID(self.CID[0].cid)
+        except:
+            print "No cid found.."
+        return self.cas_list
+        #else:
+         #   return self.cas
 
     def CID_to_smiles(self):
         number_of_compounds=len(self.CID)
@@ -108,13 +107,24 @@ class Chemical:
             return self.CID
         elif key=='name_list':
             return self.name_list
+        elif key=='cas_list':
+            return self.cas_list
         elif key=='name_list_print':
             if len(self.name_list) > 1:
                 for nam in self.name_list:
                    self.name_list_print += nam + "\n"
             else:
-                self.name_list_print = self.name_list[0]
+                self.name_list_print = str(self.name_list[0])
             return self.name_list_print
+
+        elif key=='cas_list_print':
+            if len(self.cas_list) > 1:
+                for cas in self.cas_list:
+                   self.cas_list_print += cas + "\n"
+            else:
+                self.cas_list_print = str(self.cas_list[0])
+            return self.cas_list_print
+
         elif key=='smiles_list_print':
             if len(self.smiles_list) > 1:
                 for smi in self.smiles_list:
@@ -135,6 +145,7 @@ class Chemical:
                '\n CID: %(CID)s ' \
                '\n name list: %(name_list)s' \
                '\n smiles list: %(smiles_list)s' \
+               '\n cas list: %(cas_list)s' \
                '\n name new: %(name_list_print)s' % self
 
     def download_image(self):

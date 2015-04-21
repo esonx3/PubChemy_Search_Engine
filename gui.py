@@ -113,7 +113,7 @@ def action_by_type(type,Data):
             print("Wrong formate, not Name")
             C.insert('1.0', "\n\n WARNING!: something went wrong, probably not an NAME entered\n\n")
             error = True
-    elif type == "Smiley":
+    elif type == "SMILES":
         try:
             obj = data_fetching_class.Chemical(smiles=Data)
         except:
@@ -157,7 +157,9 @@ def search(event):
             #print to output window
             #print '\nAll found names for the input chemical are: \n' + obj['name_list_print']
             try:
-                C.insert('1.0', "\n found object(s): "+str(obj['name_list_print']))
+                C.insert('1.0', "\n found name(s): "+str(obj['name_list_print']))
+                C.insert('1.0', "\n found SMILES(s): "+str(obj['smiles_list_print']))
+                C.insert('1.0', "\n found CAS number: "+str(obj['cas_list_print']))
             except:
                 print("error in data fetching")
                 C.insert('1.0', "\n\n WARNING!: something went wrong, probably an invalid value entered\n\n")
@@ -168,6 +170,7 @@ def search(event):
                     C.insert('1.0', "\n\n Name of image: "+ str(obj.CID_to_name()[0]))
                     img5 = ImageTk.PhotoImage(image)
                     C.image_create('1.0', image=img5)
+                    C.insert('1.0', "\n")
                 except:
                     pass
     elif num == 1:
@@ -180,15 +183,6 @@ def search(event):
         print B.cget("state"), "E.get"
     else:
         print "Disabled!"
-
-
-#def download_image(Name,type="name"):
-#    print("data fetching goten,",Name)
-#    try:
-#        download('PNG', 'img/img.png', Name,type,overwrite=True)
-#        return True
-#    except:
-#        return False
 
 
 def about():
@@ -323,7 +317,7 @@ B.bind('<Button-1>', search)
 #create OptionMenu
 var2 = StringVar(root)
 var2.set("Name") # initial value
-separator3 = OptionMenu(topbar, var2, "Name", "Smiley", "CAS")
+separator3 = OptionMenu(topbar, var2, "Name", "SMILES", "CAS")
 separator3.pack(fill=X, padx=5, pady=5)
 
 
