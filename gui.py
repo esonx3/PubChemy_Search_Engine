@@ -5,7 +5,7 @@ from tkFileDialog import askopenfilename
 import data_fetching_class
 import cPickle as pickle
 from PIL_LIB import Image, ImageTk
-from pubchempy import download
+#from pubchempy import download
 
 
 def create_button(topbar,img2):
@@ -58,11 +58,7 @@ def search_array(array,logg=False):
             first = False
             got_image = False
             try:
-                try:
-                    imgName = str(obj.CID_to_name()[0])
-                except:
-                    imgName = str(obj.CID_to_name())
-                got_image = download_image(imgName)
+                got_image=str(obj.download_image())
             except:
                 print("failed in getting a name..")
             if got_image:
@@ -155,11 +151,7 @@ def search(event):
         if not error:
             got_image = False
             try:
-                try:
-                    imgName = str(obj.CID_to_name()[0])
-                except:
-                    imgName = str(obj.CID_to_name())
-                got_image = download_image(imgName)
+                got_image=str(obj.download_image())
             except:
                 print("failed in getting a name..")
             #print to output window
@@ -190,13 +182,13 @@ def search(event):
         print "Disabled!"
 
 
-def download_image(Name,type="name"):
-    print("data fetching goten,",Name)
-    try:
-        download('PNG', 'img/img.png', Name,type,overwrite=True)
-        return True
-    except:
-        return False
+#def download_image(Name,type="name"):
+#    print("data fetching goten,",Name)
+#    try:
+#        download('PNG', 'img/img.png', Name,type,overwrite=True)
+#        return True
+#    except:
+#        return False
 
 
 def about():

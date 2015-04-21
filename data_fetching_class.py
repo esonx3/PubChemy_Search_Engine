@@ -137,6 +137,14 @@ class Chemical:
                '\n smiles list: %(smiles_list)s' \
                '\n name new: %(name_list_print)s' % self
 
+    def download_image(self):
+        try:
+            download('PNG', 'img/img.png', self.name_list[0],"name",overwrite=True)
+            return True
+        except:
+            return False
+
+
 
 # TEST
 
