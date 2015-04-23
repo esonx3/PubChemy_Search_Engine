@@ -7,7 +7,7 @@ import cPickle as pickle
 from PIL_LIB import Image, ImageTk
 #from pubchempy import download
 
-
+#Function to create buttons with pictures
 def create_button(topbar,img2):
     f1 = Frame(topbar, height=28, width=120)
     f1.pack_propagate(0)  # don't shrink
@@ -16,18 +16,20 @@ def create_button(topbar,img2):
     b1.pack(fill=BOTH, expand=1)
     return b1
 
-
+#what purpose does this have?
 def on_key(event):
     pass
 
-
+#Cant we remove this whole function after we are done? it only prints in Python window and returns same value as it get?
 def get_last_key(event):
     if event == "1":
-        print "knapp 1"
+        print "Load Button"
         return 1
     elif event == "2":
-        print "knapp 2"
+        print "Save Button"
         return 2
+
+    #event==3 is not going to occur so should be removed
     elif event == "3":
         print "knapp 3"
         return 3
@@ -35,13 +37,13 @@ def get_last_key(event):
         print "enterkey..."
         return 0
 
-
+#Determins the Type of search that is going to be preformed
 def get_type():
-    global var2
-    print "selected: ", var2.get()
-    return var2.get()
+    global Type_var
+    print "selected: ", Type_var.get()
+    return Type_var.get()
 
-
+#Preforms a search, depending on Type. Saves the search to a logfile. And inserts the result on screen in GUI
 def search_array(array,logg=False):
     global Save_File
     global C
@@ -59,17 +61,18 @@ def search_array(array,logg=False):
             got_image = False
             try:
                 got_image=str(obj.download_image())
-            except:
-                print("failed in getting a name..")
-            if got_image:
-                print("Got Image")
+
+                if got_image:
+                    print("Got Image")
                 #try:
-                image = Image.open("img/img.png")
-                C.insert('1.0', "\n\n Name of image: "+ str(obj.CID_to_name()[0]))
-                img5 = ImageTk.PhotoImage(image)
-                C.image_create('1.0', image=img5)
-                #except:
-                #   pass
+                    image = Image.open("img/img.png")
+                    C.insert('1.0', "\n\n Name of image: "+ str(obj.CID_to_name()[0]))
+                    img5 = ImageTk.PhotoImage(image)
+                    C.image_create('1.0', image=img5)
+            except:
+                #Testing print, does nothing in GUI
+                print("failed in getting a name..")    #except:
+                #pass
         if logg:
             save_to_log(str(target))#save the search-term
         if not error:
@@ -94,6 +97,7 @@ def search_array(array,logg=False):
                CAS = "not found"
             SaveString = "\nName: " + Name + " Smile: " + smile + " CAS: " + CAS
             C.insert('1.0', "\nItem: "+str(lengd) + "/" + str(max) + ":" + SaveString + "\n")
+            #Testing print, shows SaveString in Python. Does nothing in GUI
             print SaveString
             f = open(Save_File, "a")
             f.write(SaveString)
@@ -156,22 +160,37 @@ def search(event):
                 print("failed in getting a name..")
             #print to output window
             #print '\nAll found names for the input chemical are: \n' + obj['name_list_print']
+
+
             try:
-                C.insert('1.0', "\n found name(s): "+str(obj['name_list_print']))
-                C.insert('1.0', "\n found SMILES(s): "+str(obj['smiles_list_print']))
-                C.insert('1.0', "\n found CAS number: "+str(obj['cas_list_print']))
+                try:
+                    C.insert('1.0', "\n found name(s): "+str(obj['name_list_print']))
+                    C.insert('1.0', "\n found SMILES(s): "+str(obj['smiles_list_print']))
+                    C.insert('1.0', "\n found CID(s): "+str(obj['CID']))
+                except:
+                    C.insert('1.0', "\n Name/SMILES/cas is possibly incorrect")
+
+                try:
+                    C.insert('1.0', "\n found CAS number: "+str(obj['cas_list_print']))
+                except:
+                    C.insert('1.0', "\n no CAS found")
             except:
-                print("error in data fetching")
-                C.insert('1.0', "\n\n WARNING!: something went wrong, probably an invalid value entered\n\n")
+                pass
+
+
+                #C.insert('1.0', "\n\n WARNING!: something went wrong, probably an invalid value entered\n\n")
             separator2.delete(0, END)
             if got_image:
                 try:
+                    print ("nu ska vi oppna bild")
                     image = Image.open("img/img.png")
                     C.insert('1.0', "\n\n Name of image: "+ str(obj.CID_to_name()[0]))
                     img5 = ImageTk.PhotoImage(image)
+                    print ("nu ska vi klistra in bilden i Gui")
                     C.image_create('1.0', image=img5)
                     C.insert('1.0', "\n")
                 except:
+                    print ("hittar ingen bild")
                     pass
     elif num == 1:
         open_file()
@@ -188,7 +207,7 @@ def search(event):
 def about():
     top = Toplevel()
     top.title("Python PubChem App")
-    msg = Message(top, text="PubChem Client")
+    msg = Message(top, text="PubChem Client\nCreated by Tony, Alexander, Aleksandra and Markus")
     msg.pack()
 
     button = Button(top, text="Ok", command=top.destroy)
@@ -293,39 +312,34 @@ scrollbar.pack(side=RIGHT,  fill=Y)
 C.config(yscrollcommand=scrollbar.set)
 C.pack(side="left", fill=X, expand=True)
 
-#creat buttons
+#---- Create buttons ----
 
-#hiden button, (activated by enter key)
+#Hiden button, (activated by enter key)
 B = Button(topbar,state='disabled',command=lambda:go_name(B,C),text="GO!",fg="blue",bg="red",width=5)
-
 # Entry widget
 separator2 = Entry(relief=SUNKEN)
 separator2.pack(fill=X, padx=5, pady=5)
 separator2.focus()
-
-
-#knappar....
-#img2 = PhotoImage(file="firefox_icon.gif")
+#Create load and save buttons
 save_img = PhotoImage(file="img/icon_savefile.gif")
 Load_img = PhotoImage(file="img/icon_loadfile.gif")
-img2 = PhotoImage(file="img/icon_loadfile.gif")
-button = create_button(topbar,Load_img)
-button.bind('<Button-1>', lambda(e): search(str(1)))
-button1 = create_button(topbar,save_img)
-button1.bind('<Button-1>', lambda(e): search(str(2)))
-
-
-#bind hiden button
+loadButton = create_button(topbar,Load_img)
+#Binds commands to buttons
+loadButton.bind('<Button-1>', lambda(e): search(str(1)))
+saveButton = create_button(topbar,save_img)
+saveButton.bind('<Button-1>', lambda(e): search(str(2)))
+#Bind command to hiden button
 B.bind('<Button-1>', search)
 
 #create OptionMenu
-var2 = StringVar(root)
-var2.set("Name") # initial value
-separator3 = OptionMenu(topbar, var2, "Name", "SMILES", "CAS")
+Type_var = StringVar(root)
+Type_var.set("Name") # initial value
+separator3 = OptionMenu(topbar, Type_var, "Name", "SMILES", "CAS")
 separator3.pack(fill=X, padx=5, pady=5)
 
 
 separator2.bind('<Return>',search)
+#vad ar syftet med den har raden kod??
 separator2.bind('<KeyRelease>',on_key) #Does nothing? reacting on key release
 
 # create a toplevel menu
@@ -344,7 +358,7 @@ historymenu.add_command(label="Random function", command=hello)
 menubar.add_cascade(label="History", menu=historymenu)
 
 helpmenu = Menu(menubar, tearoff=0)
-helpmenu.add_command(label="About", command=about)  #change command to print instructions in window
+helpmenu.add_command(label="About", command=about)  #Adds command to print instructions in window
 menubar.add_cascade(label="Help", menu=helpmenu)
 
 # display the menu

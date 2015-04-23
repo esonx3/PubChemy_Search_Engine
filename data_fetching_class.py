@@ -73,8 +73,11 @@ class Chemical:
         #if self.cas == '':
         try:
             self.cas_list = CAS_BDTABASE.Find_CAS_BY_CID(self.CID[0].cid)
+            print ("Cid hittades")
+            print str(self.cas_list)
         except:
             print "No cid found.."
+
         return self.cas_list
         #else:
          #   return self.cas
@@ -118,6 +121,7 @@ class Chemical:
             return self.name_list_print
 
         elif key=='cas_list_print':
+
             if len(self.cas_list) > 1:
                 for cas in self.cas_list:
                    self.cas_list_print += cas + "\n"
@@ -151,6 +155,7 @@ class Chemical:
     def download_image(self):
         try:
             download('PNG', 'img/img.png', self.name_list[0],"name",overwrite=True)
+            print "empty name list: " + str(self.name_list) + " end of empty list"
             return True
         except:
             return False
