@@ -17,30 +17,25 @@ def create_button(topbar,img2):
     return b1
 
 #what purpose does this have?
-def on_key(event):
-    pass
+#def on_key(event):
+#    pass
 
 #Cant we remove this whole function after we are done? it only prints in Python window and returns same value as it get?
 def get_last_key(event):
     if event == "1":
-        print "Load Button"
         return 1
     elif event == "2":
-        print "Save Button"
         return 2
 
     #event==3 is not going to occur so should be removed
     elif event == "3":
-        print "knapp 3"
         return 3
     else:                       # remove the old text from the "enter window"
-        print "enterkey..."
         return 0
 
 #Determins the Type of search that is going to be preformed
 def get_type():
     global Type_var
-    print "selected: ", Type_var.get()
     return Type_var.get()
 
 #Preforms a search, depending on Type. Saves the search to a logfile. And inserts the result on screen in GUI
@@ -64,15 +59,12 @@ def search_array(array,logg=False):
 
                 if got_image:
                     print("Got Image")
-                #try:
                     image = Image.open("img/img.png")
                     C.insert('1.0', "\n\n Name of image: "+ str(obj.CID_to_name()[0]))
                     img5 = ImageTk.PhotoImage(image)
                     C.image_create('1.0', image=img5)
             except:
-                #Testing print, does nothing in GUI
-                print("failed in getting a name..")    #except:
-                #pass
+                pass
         if logg:
             save_to_log(str(target))#save the search-term
         if not error:
@@ -98,7 +90,6 @@ def search_array(array,logg=False):
             SaveString = "\nName: " + Name + " Smile: " + smile + " CAS: " + CAS
             C.insert('1.0', "\nItem: "+str(lengd) + "/" + str(max) + ":" + SaveString + "\n")
             #Testing print, shows SaveString in Python. Does nothing in GUI
-            print SaveString
             f = open(Save_File, "a")
             f.write(SaveString)
             f.close()
@@ -114,24 +105,20 @@ def action_by_type(type,Data):
         try:
             obj = data_fetching_class.Chemical(name=Data)
         except:
-            print("Wrong formate, not Name")
             C.insert('1.0', "\n\n WARNING!: something went wrong, probably not an NAME entered\n\n")
             error = True
     elif type == "SMILES":
         try:
             obj = data_fetching_class.Chemical(smiles=Data)
         except:
-            print("Wrong formate, not Smily")
             C.insert('1.0', "\n\n WARNING!: something went wrong, probably not a Smily entered\n\n")
             error = True
     else:
         try:
             obj = data_fetching_class.Chemical(cas=Data)
         except:
-            print("Wrong formate, not CAS")
             C.insert('1.0', "\n\n WARNING!: something went wrong, probably not a CAS entered\n\n")
             error = True
-    print "action by type return: ", [error,obj]
     return [error,obj]
 
 
@@ -141,10 +128,6 @@ def search(event):
     global img5
     global separator2
     Data = separator2.get()
-    #var_win_text = get_compounds(separator2.get(), 'name')
-    #C.insert('1.0', var_win_text)
-    #print "search", event
-    #C.insert('1.0', "\n")
     num = get_last_key(event)
     if num == 0:
         type = get_type()
@@ -157,40 +140,38 @@ def search(event):
             try:
                 got_image=str(obj.download_image())
             except:
-                print("failed in getting a name..")
-            #print to output window
-            #print '\nAll found names for the input chemical are: \n' + obj['name_list_print']
+                pass
 
 
             try:
                 try:
                     C.insert('1.0', "\n found name(s): "+str(obj['name_list_print']))
-                    C.insert('1.0', "\n found SMILES(s): "+str(obj['smiles_list_print']))
-                    C.insert('1.0', "\n found CID(s): "+str(obj['CID']))
                 except:
-                    C.insert('1.0', "\n Name/SMILES/cas is possibly incorrect")
+                    C.insert('1.0', "\n Name is incorrect")
 
                 try:
-                    C.insert('1.0', "\n found CAS number: "+str(obj['cas_list_print']))
+                    C.insert('1.0', "\n found SMILES(s): "+str(obj['smiles_list_print']))
                 except:
-                    C.insert('1.0', "\n no CAS found")
+                    C.insert('1.0', "\n SMILES is incorrect")
+
+                try:
+                    if str(obj['CID']) != "[]":
+                        C.insert('1.0', "\n found CID(s): "+str(obj['CID']))
+                    else:
+                        C.insert('1.0', "\n Cas is possibly incorrect")
+                except:
+                    C.insert('1.0', "\n Cas is possibly incorrect")
             except:
                 pass
-
-
-                #C.insert('1.0', "\n\n WARNING!: something went wrong, probably an invalid value entered\n\n")
             separator2.delete(0, END)
             if got_image:
                 try:
-                    print ("nu ska vi oppna bild")
                     image = Image.open("img/img.png")
                     C.insert('1.0', "\n\n Name of image: "+ str(obj.CID_to_name()[0]))
                     img5 = ImageTk.PhotoImage(image)
-                    print ("nu ska vi klistra in bilden i Gui")
                     C.image_create('1.0', image=img5)
                     C.insert('1.0', "\n")
                 except:
-                    print ("hittar ingen bild")
                     pass
     elif num == 1:
         open_file()
@@ -198,16 +179,12 @@ def search(event):
         save_file()
     else:
         pass
-    if B.cget("state"):
-        print B.cget("state"), "E.get"
-    else:
-        print "Disabled!"
 
 
 def about():
     top = Toplevel()
     top.title("Python PubChem App")
-    msg = Message(top, text="PubChem Client\nCreated by Tony, Alexander, Aleksandra and Markus")
+    msg = Message(top, text="PubChem Client\nCreated by Tony, Alexander, Aleksandra and Markus\n\n Expect 3seconds per search term, so dont be a stupid fuck and search for a LOT!!!")
     msg.pack()
 
     button = Button(top, text="Ok", command=top.destroy)
@@ -220,20 +197,19 @@ def open_file():
     global C
     if Save_File != None:
         Open_File = askopenfilename(filetypes=[("Text files","*.txt")])
-        print "selected file:" , Open_File
         word_array = read_file()
         status = search_array(word_array,logg=True)
         if status:
             C.insert('1.0', "\nDONE!\nSave data to:\n" + str(Save_File))
     else:
-        print "Save file not selected"
         C.insert('1.0', "\nSave file not selected!\n")
 
 
 def save_file():
     global Save_File
-    Save_File = askopenfilename(filetypes=[("Text files","*.txt")])
-    print "selected file:" , Save_File
+    temp = askopenfilename(filetypes=[("Text files","*.txt")])
+    if len(temp) > 1:
+        Save_File = temp
 
 
 def go_name(B,C):
@@ -246,7 +222,6 @@ def read_file():
     f = open(Open_File, 'r+')
     Content = f.read()
     StringArray = Content.splitlines(False)
-    print StringArray
     f.close()
     return StringArray
 
@@ -256,7 +231,6 @@ def hello():
     import random
     rand=['Hello!','Surprise!','This is a random function!','Bored?',"I'm sick of it!"]
     C.insert('1.0',"\n"+random.choice(rand)+"\n"+"\n")
-    #print "hello!"
 
 
 def save_to_log(word):
@@ -297,7 +271,7 @@ tb = topbar
 # Create 2:nd frame
 frame = Frame()
 frame.pack(fill=X)
-#creat an scrollbar to the frame
+#creat a scrollbar to the frame
 scrollbar = Scrollbar(frame)
 
 img2 = PhotoImage(file="img/icon_loadfile.gif")
@@ -305,8 +279,7 @@ img5 = PhotoImage(file="img/icon_loadfile.gif")
 
 #text area for output
 C = Text(frame, bg="white", wrap=WORD, yscrollcommand=scrollbar.set)
-#C.insert(INSERT, "\n\nhello world")#hello world...
-#scrollbar till outpot text
+#configure scrollbar
 scrollbar.config(command=C.yview)
 scrollbar.pack(side=RIGHT,  fill=Y)
 C.config(yscrollcommand=scrollbar.set)
@@ -340,7 +313,7 @@ separator3.pack(fill=X, padx=5, pady=5)
 
 separator2.bind('<Return>',search)
 #vad ar syftet med den har raden kod??
-separator2.bind('<KeyRelease>',on_key) #Does nothing? reacting on key release
+#separator2.bind('<KeyRelease>',on_key) #Does nothing? reacting on key release
 
 # create a toplevel menu
 menubar = Menu(root)
@@ -361,7 +334,7 @@ helpmenu = Menu(menubar, tearoff=0)
 helpmenu.add_command(label="About", command=about)  #Adds command to print instructions in window
 menubar.add_cascade(label="Help", menu=helpmenu)
 
+C.insert('1.0',"\n\nExpect 3seconds per search term, so dont be a stupid fuck and search for a LOT!!!")
 # display the menu
 root.config(menu=menubar)
 mainloop()
-#Gui_Start()

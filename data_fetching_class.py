@@ -159,26 +159,3 @@ class Chemical:
             return True
         except:
             return False
-
-
-
-# TEST
-
-#kemikalie=Chemical(name='glucose')
-#kemikalie2=Chemical(smiles='CCCCC')
-#kemikalie3=Chemical(cas='7732-18-5')
-
-#print kemikalie
-#print 'The input name of a chemical is: ' + kemikalie['name']
-#print '\nAll found names for the input chemical are: \n' + kemikalie['name_list_print']
-
-#print kemikalie2
-#print 'The input name of a chemical is: ' + kemikalie2['name']
-#print 'The input smiles of a chemical is: ' + kemikalie2['smiles']
-#print '\nAll found names for the input chemical are: \n' + kemikalie2['name_list_print'] + '\n'
-
-#print kemikalie3
-#print 'The input name of a chemical is: ' + kemikalie3['name']
-#print 'The input smiles of a chemical is: ' + kemikalie3['smiles']
-#print 'The input cas number of a chemical is: ' + kemikalie3['cas']
-#print '\nAll found names for the input chemical are: \n' + kemikalie3['name_list_print']
