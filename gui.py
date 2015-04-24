@@ -5,7 +5,6 @@ from tkFileDialog import askopenfilename
 import data_fetching_class
 import cPickle as pickle
 from PIL_LIB import Image, ImageTk
-#from pubchempy import download
 
 #Function to create buttons with pictures
 def create_button(topbar,img2):
@@ -16,9 +15,6 @@ def create_button(topbar,img2):
     b1.pack(fill=BOTH, expand=1)
     return b1
 
-#what purpose does this have?
-#def on_key(event):
-#    pass
 
 #Cant we remove this whole function after we are done? it only prints in Python window and returns same value as it get?
 def get_last_key(event):
@@ -97,12 +93,13 @@ def search_array(array,logg=False):
     C.insert('1.0',"\n")
     return True
 
-
+#Performs a data search depending given type and returns it
 def action_by_type(type,Data):
     obj = None
     error = False
     if type == "Name":
         try:
+            #Data from database
             obj = data_fetching_class.Chemical(name=Data)
         except:
             C.insert('1.0', "\n\n WARNING!: something went wrong, probably not an NAME entered\n\n")
@@ -121,7 +118,7 @@ def action_by_type(type,Data):
             error = True
     return [error,obj]
 
-
+#Fetches a picture from PubChems database and prints picture + data in GUI
 def search(event):
     global C
     global B
@@ -180,7 +177,7 @@ def search(event):
     else:
         pass
 
-
+#Info
 def about():
     top = Toplevel()
     top.title("Python PubChem App")
@@ -212,10 +209,6 @@ def save_file():
         Save_File = temp
 
 
-def go_name(B,C):
-    B.config(text='Loading...')
-    C.config(bg='grey')
-
 
 def read_file():
     global Open_File
@@ -225,7 +218,7 @@ def read_file():
     f.close()
     return StringArray
 
-
+#Random shit
 def hello():
     global C
     import random
@@ -254,7 +247,6 @@ def search_log():
     for obj in logg:
         C.insert('1.0', "\n" + str(obj))
     C.insert('1.0', "\n===============Search Logg End==================)")
-    #about()
 
 #file to open
 Open_File = None
@@ -285,10 +277,6 @@ scrollbar.pack(side=RIGHT,  fill=Y)
 C.config(yscrollcommand=scrollbar.set)
 C.pack(side="left", fill=X, expand=True)
 
-#---- Create buttons ----
-
-#Hiden button, (activated by enter key)
-B = Button(topbar,state='disabled',command=lambda:go_name(B,C),text="GO!",fg="blue",bg="red",width=5)
 # Entry widget
 separator2 = Entry(relief=SUNKEN)
 separator2.pack(fill=X, padx=5, pady=5)
@@ -301,8 +289,6 @@ loadButton = create_button(topbar,Load_img)
 loadButton.bind('<Button-1>', lambda(e): search(str(1)))
 saveButton = create_button(topbar,save_img)
 saveButton.bind('<Button-1>', lambda(e): search(str(2)))
-#Bind command to hiden button
-B.bind('<Button-1>', search)
 
 #create OptionMenu
 Type_var = StringVar(root)
@@ -312,8 +298,6 @@ separator3.pack(fill=X, padx=5, pady=5)
 
 
 separator2.bind('<Return>',search)
-#vad ar syftet med den har raden kod??
-#separator2.bind('<KeyRelease>',on_key) #Does nothing? reacting on key release
 
 # create a toplevel menu
 menubar = Menu(root)
