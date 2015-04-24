@@ -334,7 +334,7 @@ helpmenu = Menu(menubar, tearoff=0)
 helpmenu.add_command(label="About", command=about)  #Adds command to print instructions in window
 menubar.add_cascade(label="Help", menu=helpmenu)
 
-C.insert('1.0',"\n\nExpect 3seconds per search term, so dont be a stupid fuck and search for to manny at a time!!!")
+C.insert('1.0',"\n\nExpect 3seconds per search term, so dont be a stupid fuck and search for to manny at a time when doing file search!!!")
 # display the menu
 root.config(menu=menubar)
 mainloop()
