@@ -184,7 +184,7 @@ def search(event):
 def about():
     top = Toplevel()
     top.title("Python PubChem App")
-    msg = Message(top, text="PubChem Client\nCreated by Tony, Alexander, Aleksandra and Markus\n\n Expect 3seconds per search term, so dont be a stupid fuck and search for a LOT!!!")
+    msg = Message(top, text="PubChem Client\nCreated by Tony, Alexander, Aleksandra and Markus\n\n Expect 3seconds per search term, so dont be a stupid fuck and search for a to manny at a time!!!")
     msg.pack()
 
     button = Button(top, text="Ok", command=top.destroy)
@@ -334,7 +334,7 @@ helpmenu = Menu(menubar, tearoff=0)
 helpmenu.add_command(label="About", command=about)  #Adds command to print instructions in window
 menubar.add_cascade(label="Help", menu=helpmenu)
 
-C.insert('1.0',"\n\nExpect 3seconds per search term, so dont be a stupid fuck and search for a LOT!!!")
+C.insert('1.0',"\n\nExpect 3seconds per search term, so dont be a stupid fuck and search for a to manny at a time!!!")
 # display the menu
 root.config(menu=menubar)
 mainloop()
