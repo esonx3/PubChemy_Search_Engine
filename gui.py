@@ -150,6 +150,10 @@ def search(event):
                     C.insert('1.0', "\n found SMILES(s): "+str(obj['smiles_list_print']))
                 except:
                     C.insert('1.0', "\n SMILES is incorrect")
+                try:
+                    C.insert('1.0', "\n found CAS: "+str(obj['cas_list'][0]))
+                except:
+                    C.insert('1.0', "\n CAS is incorrect")
 
                 try:
                     if str(obj['CID']) != "[]":
@@ -318,7 +322,7 @@ helpmenu = Menu(menubar, tearoff=0)
 helpmenu.add_command(label="About", command=about)  #Adds command to print instructions in window
 menubar.add_cascade(label="Help", menu=helpmenu)
 
-C.insert('1.0',"\n\nExpect 3seconds per search term, so dont be a stupid fuck and search for to manny at a time when doing file search!!!")
+C.insert('1.0',"\n\nExpect 3 seconds per search term...\n")
 # display the menu
 root.config(menu=menubar)
 mainloop()
