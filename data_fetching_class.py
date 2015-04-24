@@ -26,7 +26,7 @@ class Chemical:
         self.smiles_list_print=''
         self.cas_list_print=''
 
-
+# gets CID number for a given name and summons functions getting all names, SMILES and a CAS number
     def name_to_CID(self,name):
         try:
             self.CID=get_compounds(self.name,'name')
@@ -37,7 +37,7 @@ class Chemical:
         except:
             return self.CID
 
-
+# gets CID number for a given SMILES and summons functions getting all names, SMILES and a CAS number
     def smiles_to_CID(self,smiles):
         try:
             self.CID=get_compounds(smiles,'smiles')
@@ -48,14 +48,7 @@ class Chemical:
         except:
             return self.CID
 
-    #global CAS_BDTABASE
-    #cas=str(raw_input('give a cas: '))
-    ##cid=get_compounds(smiles,'smiles')
-    #cid = CAS_BDTABASE.Find_CID_BY_CAS(cas,True)
-    #print 'cid: ' + str(cid)
-
-
-
+# gets CID number for a given CAS number and summons functions getting all names, SMILES and a CAS number
     def cas_to_CID(self,cas):
         global CAS_BDTABASE
         try:
@@ -68,20 +61,17 @@ class Chemical:
         except:
             return self.CID
 
-
+# gets CAS number from CID number
     def CID_to_CAS(self):
-        #if self.cas == '':
         try:
             self.cas_list = CAS_BDTABASE.Find_CAS_BY_CID(self.CID[0].cid)
             print ("Cid hittades")
             print str(self.cas_list)
         except:
             print "No cid found.."
-
         return self.cas_list
-        #else:
-         #   return self.cas
 
+# gets SMILES from CID number
     def CID_to_smiles(self):
         number_of_compounds=len(self.CID)
         for i in range (0,number_of_compounds):
@@ -89,7 +79,7 @@ class Chemical:
             self.smiles_list.append(SMILES)
         return self.smiles_list
 
-
+# gets names from CID number
     def CID_to_name(self):
         number_of_compounds=len(self.CID)
         for i in range (0,number_of_compounds):
@@ -100,7 +90,6 @@ class Chemical:
 
     def __getitem__(self,key):
         if key =='name':
-
             return self.name
         elif key=='cas':
             return self.cas
@@ -119,16 +108,6 @@ class Chemical:
             else:
                 self.name_list_print = str(self.name_list[0])
             return self.name_list_print
-
-        elif key=='cas_list_print':
-
-            if len(self.cas_list) > 1:
-                for cas in self.cas_list:
-                   self.cas_list_print += cas + "\n"
-            else:
-                self.cas_list_print = str(self.cas_list[0])
-            return self.cas_list_print
-
         elif key=='smiles_list_print':
             if len(self.smiles_list) > 1:
                 for smi in self.smiles_list:
